@@ -33,6 +33,9 @@ collections:
           - label: "Site description"
             name: "site_description"
             widget: "string"
+          - label: "Logo"
+            name: "logo"
+            widget: "image"
           - label: "Site keywords"
             name: "site_keywords"
             widget: "list"
@@ -145,3 +148,27 @@ collections:
       - label: "Body"
         name: "body"
         widget: "markdown"
+
+  - name: "homepage"
+    label: "Homepage"
+    delete: false
+    editor:
+      preview: true
+    files:
+      - name: "slides"
+        label: "Slides"
+        file: "homepage/slides.json"
+        description: "Slides descriptions"
+        fields:
+          - name: slides
+            label: Slides
+            label_singular: "Slide"
+            widget: list
+            fields:
+              - label: "Image"
+                name: "image"
+                widget: "image"
+              - label: "Title"
+                name: "title"
+                widget: "markdown"
+                required: false

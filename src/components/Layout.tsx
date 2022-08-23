@@ -1,12 +1,25 @@
-import Head from "next/head";
-import Navigation from "./Navigation";
+import Box from '@mui/material/Box';
+import Head from 'next/head';
+import useSmallScreen from '../util/smallScreen.util';
+import Navigation from './Navigation';
 
-type Props = {
+interface LayoutProps {
   children: React.ReactNode;
-};
-export default function Layout({ children }: Props) {
+}
+
+export default function Layout({ children }: LayoutProps) {
+  const isSmallScreen = useSmallScreen();
+
   return (
-    <div className="root">
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        flex: isSmallScreen ? '1 0 auto' : undefined,
+        boxSizing: 'border-box',
+        height: '100%'
+      }}
+    >
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,36 +27,24 @@ export default function Layout({ children }: Props) {
         <link rel="apple-touch-icon" href="/icon.png" />
         <meta name="theme-color" content="#fff" />
       </Head>
-      <nav>
-        <Navigation />
-      </nav>
-      <main>{children}</main>
+      <Navigation />
+      <Box
+        component="main"
+        sx={{
+          display: 'flex',
+          minHeight: '100%',
+          flex: isSmallScreen ? '1 0 auto' : undefined
+        }}
+      >
+        {children}
+      </Box>
       <style jsx>
         {`
           #__next {
             height: 100%;
           }
-          .root {
-            display: block;
-            padding: 4rem 0;
-            box-sizing: border-box;
-            height: 100%;
-          }
-          main {
-            display: flex;
-            min-height: 100%;
-          }
-          @media (min-width: 769px) {
-            .root {
-              display: flex;
-              flex: 1 0 auto;
-            }
-            main {
-              flex: 1 0 auto;
-            }
-          }
         `}
       </style>
-    </div>
+    </Box>
   );
 }

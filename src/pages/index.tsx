@@ -1,14 +1,20 @@
-import { useEffect } from "react";
-import CarouselSlide from "../components/carousel/CarouselSlide";
-import Layout from "../components/Layout";
-import BasicMeta from "../components/meta/BasicMeta";
-import OpenGraphMeta from "../components/meta/OpenGraphMeta";
-import TwitterCardMeta from "../components/meta/TwitterCardMeta";
-import { SocialList } from "../components/SocialList";
-import useLocation from "../util/useLocation";
-import useNavigate from "../util/useNavigate";
+import { useEffect } from 'react';
+import CarouselView from '../components/carousel/CarouselView';
+import Layout from '../components/Layout';
+import BasicMeta from '../components/meta/BasicMeta';
+import OpenGraphMeta from '../components/meta/OpenGraphMeta';
+import TwitterCardMeta from '../components/meta/TwitterCardMeta';
+import { SocialList } from '../components/SocialList';
+import useLocation from '../util/useLocation';
+import useNavigate from '../util/useNavigate';
+import slides, { SerializedSlide } from '../lib/slides';
+import { serialize } from 'next-mdx-remote/serialize';
 
-export default function Index() {
+interface HomepageProps {
+  slides: SerializedSlide[];
+}
+
+export default function Homepage({ slides }: HomepageProps) {
   const { hash = '', pathname = '' } = useLocation();
   const navigate = useNavigate();
 
@@ -19,7 +25,7 @@ export default function Index() {
 
     const hashParts = hash.split('=');
     if (hashParts.length == 2) {
-      switch(hashParts[0]) {
+      switch (hashParts[0]) {
         case '#invite_token':
         case '#recovery_token':
         case '#email_change_token':
@@ -28,18 +34,18 @@ export default function Index() {
           return;
       }
     }
-  }, [hash]);
+  }, [hash, navigate, pathname]);
 
   return (
     <Layout>
-      <BasicMeta url={"/"} />
-      <OpenGraphMeta url={"/"} />
-      <TwitterCardMeta url={"/"} />
+      <BasicMeta url={'/'} />
+      <OpenGraphMeta url={'/'} />
+      <TwitterCardMeta url={'/'} />
       <div className="container">
         <div>
-          <CarouselSlide />
+          <CarouselView slides={slides} />
           <h1>
-            Hi, We're Next.js & Netlify<span className="fancy">.</span>
+            Hi, We&apos;re Next.js & Netlify<span className="fancy">.</span>
           </h1>
           <span className="handle">@nextjs-netlify-blog</span>
           <h2>A blog template with Next.js and Netlify.</h2>
@@ -52,7 +58,6 @@ export default function Index() {
           align-items: center;
           justify-content: center;
           flex: 1 1 auto;
-          padding: 0 1.5rem;
         }
         h1 {
           font-size: 2.5rem;
@@ -85,4 +90,18 @@ export default function Index() {
       `}</style>
     </Layout>
   );
+}
+
+export async function getStaticProps() {
+  const serializedSlides: SerializedSlide[] = [];
+  for (const slide of slides) {
+    const mdxTitle = await serialize(slide.title);
+    serializedSlides.push({
+      image: slide.image,
+      titleSource: mdxTitle
+    });
+  }
+
+  const source = 'Some **mdx** text, with a component <Test />';
+  return { props: { slides: serializedSlides } };
 }

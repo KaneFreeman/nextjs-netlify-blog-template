@@ -1,92 +1,129 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import Burger from "./Burger";
-import { useState } from "react";
+/* eslint-disable @next/next/no-img-element */
+import MenuIcon from '@mui/icons-material/Menu';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import { useTheme } from '@mui/system';
+import { useRouter } from 'next/router';
+import { useCallback, useMemo, useState } from 'react';
+import { MAX_APP_WIDTH } from '../constants';
+import config from '../lib/config';
+import { SerializedSlide } from '../lib/slides';
+
+const DRAWER_WIDTH = 240;
 
 export default function Navigation() {
   const router = useRouter();
-  const [active, setActive] = useState(false);
-  return (
-    <>
-      <Burger active={active} onClick={() => setActive(!active)} />
-      <div className={"container " + (active ? "active" : "")}>
-        <ul>
-          <li>
-            <Link href="/">
-              <a className={router.pathname === "/" ? "active" : null}>about</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/posts">
-              <a
-                className={
-                  router.pathname.startsWith("/posts") ? "active" : null
-                }
-              >
-                blog
-              </a>
-            </Link>
-          </li>
-        </ul>
-        <style jsx>
-          {`
-            .container {
-              width: 0;
-            }
-            ul {
-              opacity: 0;
-              width: 100%;
-              height: 100vh;
-              text-align: right;
-              list-style: none;
-              margin: 0;
-              padding: 0;
-              position: fixed;
-              top: 0;
-              background-color: #fff;
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              z-index: 1;
-              transform: translateY(100%);
-              transition: opacity 200ms;
-            }
-            .active ul {
-              opacity: 1;
-              transform: translateY(0);
-            }
-            li {
-              margin-bottom: 1.75rem;
-              font-size: 2rem;
-              padding: 0 1.5rem 0 0;
-            }
-            li:last-child {
-              margin-bottom: 0;
-            }
-            .active {
-              color: #222;
-            }
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-            @media (min-width: 769px) {
-              .container {
-                width: 7rem;
-                display: block;
-              }
-              ul {
-                opacity: 1;
-                width: 7rem;
-                top: auto;
-                display: block;
-                transform: translateY(0);
-              }
-              li {
-                font-size: 1rem;
-                padding: 0;
-              }
+  const handleDrawerToggle = useCallback(() => {
+    setMobileOpen(!mobileOpen);
+  }, [mobileOpen]);
+
+  const navItems = useMemo(() => ['blogs', 'about'], []);
+
+  const drawer = useMemo(
+    () => (
+      <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+        <Typography variant="h6" sx={{ my: 2 }}>
+          MUI
+        </Typography>
+        <Divider />
+        <List>
+          {navItems.map((item) => (
+            <ListItem key={item} disablePadding>
+              <ListItemButton sx={{ textAlign: 'center' }}>
+                <ListItemText primary={item} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+    ),
+    [handleDrawerToggle, navItems]
+  );
+
+  const container = useMemo(() => (typeof window !== 'undefined' ? window.document.body : undefined), []);
+
+  const theme = useTheme();
+  const trigger = useScrollTrigger();
+
+  return (
+    <Box sx={{ display: 'flex' }}>
+      <AppBar
+        component="nav"
+        sx={{
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          alignItems: 'center'
+        }}
+      >
+        <Toolbar
+          sx={{
+            [theme.breakpoints.up('md')]: {
+              transition: 'height 0.5s ease;',
+              height: trigger ? 64 : 92,
+              maxWidth: MAX_APP_WIDTH,
+              width: '100%'
             }
-          `}
-        </style>
-      </div>
-    </>
+          }}
+        >
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Box
+            component="img"
+            src={config.logo}
+            alt={config.site_title}
+            sx={{
+              transition: 'height,padding 0.5s ease;',
+              height: '100%',
+              padding: trigger ? '8px 0' : '16px 0',
+              boxSizing: 'border-box'
+            }}
+          />
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            {navItems.map((item) => (
+              <Button key={item} sx={{ color: '#fff' }}>
+                {item}
+              </Button>
+            ))}
+          </Box>
+        </Toolbar>
+      </AppBar>
+      <Box component="nav">
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH }
+          }}
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+    </Box>
   );
 }

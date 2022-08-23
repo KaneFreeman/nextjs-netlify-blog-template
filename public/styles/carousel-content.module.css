@@ -1,0 +1,12 @@
+.content + .carousel-content {
+  font-weight: 700;
+}
+
+.content + .carousel-content h1,
+.content + .carousel-content h2,
+.content + .carousel-content h3,
+.content + .carousel-content h4,
+.content + .carousel-content h5 {
+  margin: 0;
+  line-height: 1.25em;
+}
