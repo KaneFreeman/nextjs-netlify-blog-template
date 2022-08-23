@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import CarouselSlide from "../components/carousel/CarouselSlide";
 import Layout from "../components/Layout";
 import BasicMeta from "../components/meta/BasicMeta";
 import OpenGraphMeta from "../components/meta/OpenGraphMeta";
@@ -36,6 +37,7 @@ export default function Index() {
       <TwitterCardMeta url={"/"} />
       <div className="container">
         <div>
+          <CarouselSlide />
           <h1>
             Hi, We're Next.js & Netlify<span className="fancy">.</span>
           </h1>

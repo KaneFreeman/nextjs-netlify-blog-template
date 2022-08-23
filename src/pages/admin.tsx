@@ -15,7 +15,7 @@ const Admin = () => {
     cms.registerPreviewStyle("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap");
     cms.registerPreviewStyle("/styles/content.module.css");
     cms.registerPreviewTemplate("posts", BlogPostPreview);
-  }, [cms]);
+  }, [cms, BlogPostPreview]);
 
   return <div />;
 };
