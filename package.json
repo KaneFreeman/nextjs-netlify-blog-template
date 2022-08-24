@@ -23,6 +23,7 @@
     "gray-matter": "4.0.3",
     "js-yaml": "4.1.0",
     "netlify-cms-app": "2.15.72",
+    "netlify-cms-widget-markdown-toast-ui": "0.0.2",
     "next": "12.2.5",
     "next-mdx-remote": "4.1.0",
     "normalize.css": "8.0.1",

@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
 import { CMS } from 'netlify-cms-core';
-import { useScript } from '../util/useScript';
+import { useEffect } from 'react';
 import BlogPostPreview from '../components/previews/BlogPostPreview';
+import { useScript } from '../util/useScript';
 
 const Admin = () => {
   useScript('https://identity.netlify.com/v1/netlify-identity-widget.js');

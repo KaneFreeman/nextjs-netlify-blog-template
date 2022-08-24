@@ -1,9 +1,8 @@
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import { MDXRemote } from 'next-mdx-remote';
-import { CAROUSEL_MAX_HEIGHT } from '../../constants';
+import { CAROUSEL_MAX_HEIGHT, MAX_APP_WIDTH } from '../../constants';
 import { SerializedSlide } from '../../lib/slides';
-import styles from '../../../public/styles/content.module.css';
 import carouselStyles from '../../../public/styles/carousel-content.module.css';
 
 interface CarouselSlideProps {
@@ -15,7 +14,15 @@ const CarouselSlide = ({ slide: { image, titleSource }, selected }: CarouselSlid
   return (
     <Box sx={{ position: 'relative' }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={image} alt={image} height={CAROUSEL_MAX_HEIGHT} />
+      <Box
+        sx={{
+          backgroundImage: `url(${image})`,
+          backgroundPosition: 'center center',
+          backgroundRepeat: 'no-repeat',
+          width: '100%',
+          height: CAROUSEL_MAX_HEIGHT
+        }}
+      />
       <Fade in={selected} easing="ease-in" style={{ transitionDelay: '500ms' }}>
         <Box
           sx={{
@@ -29,7 +36,7 @@ const CarouselSlide = ({ slide: { image, titleSource }, selected }: CarouselSlid
             justifyContent: 'center'
           }}
         >
-          <Box className={`${styles.content} ${carouselStyles.content}`}>
+          <Box sx={{ maxWidth: MAX_APP_WIDTH, width: '100%' }} className={`${carouselStyles.carouselContent}`}>
             <MDXRemote {...titleSource} />
           </Box>
         </Box>

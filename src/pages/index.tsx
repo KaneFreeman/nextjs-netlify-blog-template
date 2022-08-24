@@ -1,3 +1,5 @@
+import Box from '@mui/material/Box';
+import { serialize } from 'next-mdx-remote/serialize';
 import { useEffect } from 'react';
 import CarouselView from '../components/carousel/CarouselView';
 import Layout from '../components/Layout';
@@ -5,10 +7,9 @@ import BasicMeta from '../components/meta/BasicMeta';
 import OpenGraphMeta from '../components/meta/OpenGraphMeta';
 import TwitterCardMeta from '../components/meta/TwitterCardMeta';
 import { SocialList } from '../components/SocialList';
+import slides, { SerializedSlide } from '../lib/slides';
 import useLocation from '../util/useLocation';
 import useNavigate from '../util/useNavigate';
-import slides, { SerializedSlide } from '../lib/slides';
-import { serialize } from 'next-mdx-remote/serialize';
 
 interface HomepageProps {
   slides: SerializedSlide[];
@@ -42,7 +43,7 @@ export default function Homepage({ slides }: HomepageProps) {
       <OpenGraphMeta url={'/'} />
       <TwitterCardMeta url={'/'} />
       <div className="container">
-        <div>
+        <Box sx={{ width: '100%' }}>
           <CarouselView slides={slides} />
           <h1>
             Hi, We&apos;re Next.js & Netlify<span className="fancy">.</span>
@@ -50,7 +51,7 @@ export default function Homepage({ slides }: HomepageProps) {
           <span className="handle">@nextjs-netlify-blog</span>
           <h2>A blog template with Next.js and Netlify.</h2>
           <SocialList />
-        </div>
+        </Box>
       </div>
       <style jsx>{`
         .container {

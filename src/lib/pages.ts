@@ -3,9 +3,9 @@ import matter from 'gray-matter';
 import path from 'path';
 import yaml from 'js-yaml';
 
-const postsDirectory = path.join(process.cwd(), 'content/posts');
+const pagesDirectory = path.join(process.cwd(), 'content/pages');
 
-export type PostContent = {
+export type PageContent = {
   readonly date: string;
   readonly title: string;
   readonly slug: string;
@@ -13,22 +13,22 @@ export type PostContent = {
   readonly fullPath: string;
 };
 
-let postCache: PostContent[];
+let pageCache: PageContent[];
 
-export function fetchPostContent(): PostContent[] {
-  if (postCache) {
-    return postCache;
+export function fetchPageContent(): PageContent[] {
+  if (pageCache) {
+    return pageCache;
   }
-  // Get file names under /posts
-  const fileNames = fs.readdirSync(postsDirectory);
-  const allPostsData = fileNames
+  // Get file names under /pages
+  const fileNames = fs.readdirSync(pagesDirectory);
+  const allPagesData = fileNames
     .filter((it) => it.endsWith('.mdx'))
     .map((fileName) => {
       // Read markdown file as string
-      const fullPath = path.join(postsDirectory, fileName);
+      const fullPath = path.join(pagesDirectory, fileName);
       const fileContents = fs.readFileSync(fullPath, 'utf8');
 
-      // Use gray-matter to parse the post metadata section
+      // Use gray-matter to parse the page metadata section
       const matterResult = matter(fileContents, {
         engines: {
           yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object
@@ -53,8 +53,8 @@ export function fetchPostContent(): PostContent[] {
       return matterData;
     });
 
-  // Sort posts by date
-  postCache = allPostsData.sort((a, b) => {
+  // Sort pages by date
+  pageCache = allPagesData.sort((a, b) => {
     if (a.date < b.date) {
       return 1;
     } else {
@@ -62,15 +62,15 @@ export function fetchPostContent(): PostContent[] {
     }
   });
 
-  return postCache;
+  return pageCache;
 }
 
-export function countPosts(tag?: string): number {
-  return fetchPostContent().filter((it) => !tag || (it.tags && it.tags.includes(tag))).length;
+export function countPages(tag?: string): number {
+  return fetchPageContent().filter((it) => !tag || (it.tags && it.tags.includes(tag))).length;
 }
 
-export function listPostContent(page: number, limit: number, tag?: string): PostContent[] {
-  return fetchPostContent()
+export function listPageContent(page: number, limit: number, tag?: string): PageContent[] {
+  return fetchPageContent()
     .filter((it) => !tag || (it.tags && it.tags.includes(tag)))
     .slice((page - 1) * limit, page * limit);
 }

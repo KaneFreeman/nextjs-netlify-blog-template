@@ -20,6 +20,9 @@ const CarouselView = ({ slides }: CarouselViewProps) => {
         display: 'flex',
         overflow: 'hidden',
         position: 'relative',
+        '& .carousel-root': {
+          width: '100%'
+        },
         '& .carousel': {
           height: '100%'
         }
