@@ -1,59 +1,35 @@
 import React from 'react';
-import styles from '../../../public/styles/content.module.css';
-import { getAuthor } from '../../lib/authors';
 import { getTag } from '../../lib/tags';
-import Author from '../Author';
 import Copyright from '../Copyright';
-import Date from '../Date';
 import Layout from '../Layout';
 import BasicMeta from '../meta/BasicMeta';
 import JsonLdMeta from '../meta/JsonLdMeta';
 import OpenGraphMeta from '../meta/OpenGraphMeta';
 import TwitterCardMeta from '../meta/TwitterCardMeta';
 import { SocialList } from '../SocialList';
-import TagButton from '../TagButton';
+import PageView from './PageView';
 
-type Props = {
+interface PageLayoutProps {
   title: string;
   date: Date;
   slug: string;
   tags: string[];
   description?: string;
   children: React.ReactNode;
-};
-export default function PageLayout({ title, date, slug, tags, description = '', children }: Props) {
+}
+
+const PageLayout = ({ title, date, slug, tags, description = '', children }: PageLayoutProps) => {
   const keywords = tags.map((it) => getTag(it)?.name ?? 'N/A');
   return (
     <Layout>
       <BasicMeta url={`/pages/${slug}`} title={title} keywords={keywords} description={description} />
       <TwitterCardMeta url={`/pages/${slug}`} title={title} description={description} />
       <OpenGraphMeta url={`/pages/${slug}`} title={title} description={description} />
-      <JsonLdMeta
-        url={`/pages/${slug}`}
-        title={title}
-        keywords={keywords}
-        date={date}
-        description={description}
-      />
+      <JsonLdMeta url={`/pages/${slug}`} title={title} keywords={keywords} date={date} description={description} />
       <div className={'container'}>
-        <article>
-          <header>
-            <h1>{title}</h1>
-            <div className={'metadata'}>
-              <div>
-                <Date date={date} />
-              </div>
-            </div>
-          </header>
-          <div className={styles.content}>{children}</div>
-          <ul className={'tag-list'}>
-            {tags.map((it, i) => (
-              <li key={i}>
-                <TagButton tag={getTag(it)} />
-              </li>
-            ))}
-          </ul>
-        </article>
+        <PageView title={title} date={date} tags={tags}>
+          {children}
+        </PageView>
         <footer>
           <div className={'social-list'}>
             <SocialList />
@@ -206,3 +182,5 @@ export default function PageLayout({ title, date, slug, tags, description = '', 
     </Layout>
   );
 }
+
+export default PageLayout;
