@@ -6,9 +6,12 @@ jobs:
       - image: cimg/node:14.19.0
     steps:
       - checkout
+      - update_npm:
+          name: Updpate NPM
+          command: npm install -g npm
       - run:
           name: Install Dependencies
-          command: npm install
+          command: npm install --legacy-peer-deps
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
