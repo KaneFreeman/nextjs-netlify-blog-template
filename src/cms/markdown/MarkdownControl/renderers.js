@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/display-name */
 import React from 'react';
 import { css } from '@emotion/core';
@@ -201,7 +203,6 @@ function TableRow(props) {
 }
 
 function TableCell(props) {
-  console.log(props.children)
   return <StyledTd {...props.attributes}>{props.children}</StyledTd>;
 }
 

@@ -1,8 +1,8 @@
 import { CMS } from 'netlify-cms-core';
 import { useEffect } from 'react';
-import controlComponent from '../cms/markdown/MarkdownControl';
-import previewComponent from '../cms/markdown/MarkdownPreview';
-import schema from '../cms/markdown/schema';
+import controlComponent from './markdown/MarkdownControl';
+import previewComponent from './markdown/MarkdownPreview';
+import schema from './markdown/schema';
 import BlogPostPreview from '../components/previews/BlogPostPreview';
 import { useScript } from '../util/useScript';
 

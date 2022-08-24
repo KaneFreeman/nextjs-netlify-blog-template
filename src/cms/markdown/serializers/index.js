@@ -207,8 +207,6 @@ export function markdownToSlate(markdown, { voidCodeBlock, remarkPlugins = [] } 
     .use(remarkToSlate, { voidCodeBlock })
     .runSync(mdast);
 
-  console.log('slateRaw', slateRaw);
-
   return slateRaw;
 }
 

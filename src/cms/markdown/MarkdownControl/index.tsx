@@ -77,44 +77,35 @@ export default class MarkdownControl extends React.Component<MarkdownControlProp
     };
   }
 
-  handleMode = (mode) => {
-    this.setState({ mode, pendingFocus: true });
-  };
-
-  setFocusReceived = () => {
-    this.setState({ pendingFocus: false });
-  };
-
   componentDidMount() {}
 
   componentDidUpdate() {
-    console.log(this.props.value);
     const content = this.editorRef.current.getInstance().getMarkdown();
-    console.log('comparing', content, this.props.value);
-    if (content !== this.props.value) {
-      this.editorRef.current.getInstance().setMarkdown(this.props.value);
+    const cleanValue = this.props.value.replace(/<br \/>/g, '<br>');
+    if (content !== cleanValue) {
+      this.editorRef.current.getInstance().setMarkdown(cleanValue);
     }
   }
 
   onChange = () => {
     const content = this.editorRef.current.getInstance().getMarkdown();
-    console.log('update content', content);
-    this.props.onChange(content);
+    const cleanContent = content.replace(/<br>/g, '<br />');
+    this.props.onChange(cleanContent);
   };
 
   render() {
     const { value } = this.props;
-    const content = this.editorRef.current?.getInstance()?.getMarkdown();
-    console.log('rendering', content, value);
     return (
       <>
         <ToastUIGlobalStyles />
         <Editor
-          initialValue="hello react editor world!"
+          ref={this.editorRef}
+          initialValue={value}
           previewStyle="vertical"
           height="600px"
           initialEditType="markdown"
           useCommandShortcut={true}
+          onChange={this.onChange}
         />
       </>
     );

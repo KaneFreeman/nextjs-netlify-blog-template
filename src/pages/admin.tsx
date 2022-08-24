@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 
 const Admin = () => {
-  const DynamicComponentWithNoSSR = dynamic(() => import('./CMSView'), {
+  const DynamicComponentWithNoSSR = dynamic(() => import('../cms/CMSView'), {
     ssr: false
   });
 

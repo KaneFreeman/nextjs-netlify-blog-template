@@ -256,7 +256,6 @@ export default function remarkEscapeMarkdownEntities() {
        * common characters.
        */
       const value = index === 0 ? escapeAllChars(node.value) : escapeCommonChars(node.value);
-      console.log('checking node', node.value, value);
       return { ...node, value, ...children };
     }
 
