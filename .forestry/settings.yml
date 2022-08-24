@@ -4,6 +4,10 @@ auto_deploy: false
 admin_path: 
 webhook_url: 
 sections:
+- type: document
+  path: meta/authors.yml
+  label: Authors
+  match: "**/*"
 - type: directory
   path: content/posts
   label: Posts
