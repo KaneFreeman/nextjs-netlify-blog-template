@@ -6,9 +6,9 @@ jobs:
       - image: cimg/node:14.19.0
     steps:
       - checkout
-      - update_npm:
-          name: Updpate NPM
-          command: npm install -g npm
+      - run:
+          name: Update NPM
+          command: "sudo npm install -g npm"
       - run:
           name: Install Dependencies
           command: npm install --legacy-peer-deps
