@@ -16,6 +16,10 @@ const CMSView = () => {
       return;
     }
 
+    if (process.env.NODE_ENV === 'development') {
+      config.local_backend = true;
+    }
+
     cmsApp.init({ config });
     cmsApp.registerPreviewStyle('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap');
     cmsApp.registerPreviewStyle('/styles/content.module.css');

@@ -14,19 +14,18 @@ export function getLinesWithOffsets(value) {
   const trimmedLines = splitted
     .reduce(
       (acc, line) => {
-        const { start: previousLineStart, originalLength: previousLineOriginalLength } =
-          acc[acc.length - 1];
+        const { start: previousLineStart, originalLength: previousLineOriginalLength } = acc[acc.length - 1];
 
         return [
           ...acc,
           {
             line: line.trimEnd(),
             start: previousLineStart + previousLineOriginalLength + SEPARATOR.length,
-            originalLength: line.length,
-          },
+            originalLength: line.length
+          }
         ];
       },
-      [{ start: -SEPARATOR.length, originalLength: 0 }],
+      [{ start: -SEPARATOR.length, originalLength: 0 }]
     )
     .slice(1)
     .map(({ line, start }) => ({ line, start }));
@@ -43,7 +42,7 @@ function matchFromLines({ trimmedLines, plugin }) {
   }
 }
 
-function createShortcodeTokenizer({ plugins }) {
+function createShortcodeTokenizer({ plugins = [] }) {
   return function tokenizeShortcode(eat, value, silent) {
     // Plugin patterns may rely on `^` and `$` tokens, even if they don't
     // use the multiline flag. To support this, we fall back to searching
@@ -59,9 +58,9 @@ function createShortcodeTokenizer({ plugins }) {
     // in the `value`.
     const [{ plugin, match } = {}] = plugins
       .toArray()
-      .map(plugin => ({
+      .map((plugin) => ({
         match: value.match(plugin.pattern) || matchFromLines({ trimmedLines, plugin }),
-        plugin,
+        plugin
       }))
       .filter(({ match }) => !!match)
       .sort((a, b) => a.match.index - b.match.index);
@@ -76,13 +75,13 @@ function createShortcodeTokenizer({ plugins }) {
       try {
         return eat(match[0])({
           type: 'shortcode',
-          data: { shortcode: plugin.id, shortcodeData },
+          data: { shortcode: plugin.id, shortcodeData }
         });
       } catch (e) {
         console.warn(
-          `Sent invalid data to remark. Plugin: ${plugin.id}. Value: ${
-            match[0]
-          }. Data: ${JSON.stringify(shortcodeData)}`,
+          `Sent invalid data to remark. Plugin: ${plugin.id}. Value: ${match[0]}. Data: ${JSON.stringify(
+            shortcodeData
+          )}`
         );
         return false;
       }
@@ -99,7 +98,7 @@ export function createRemarkShortcodeStringifier({ plugins }) {
 
     function shortcode(node) {
       const { data } = node;
-      const plugin = plugins.find(plugin => data.shortcode === plugin.id);
+      const plugin = plugins.find((plugin) => data.shortcode === plugin.id);
       return plugin.toBlock(data.shortcodeData);
     }
   };

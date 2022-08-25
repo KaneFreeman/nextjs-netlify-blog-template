@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
-import styles from '../../../public/styles/content.module.css';
 import { getTag } from '../../lib/tags';
 import DateComponent from '../Date';
 import TagButton from '../TagButton';
+import contentStyles from '../../../public/styles/content.module.css';
 
 interface PageViewProps {
   title: string;
@@ -18,14 +18,14 @@ const PageView = ({ title, date, tags = [], children }: PageViewProps) => {
     <article>
       <header>
         <h1>Test {title}</h1>
-        <div className={'metadata'}>
+        <div className="metadata">
           <div>
             <DateComponent date={finalDate} />
           </div>
         </div>
       </header>
-      <div className={styles.content}>{children}</div>
-      <ul className={'tag-list'}>
+      <div className={`content ${contentStyles.content}`}>{children}</div>
+      <ul className="tag-list">
         {tags.map((it, i) => (
           <li key={i}>
             <TagButton tag={getTag(it)} />

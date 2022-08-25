@@ -1,9 +1,10 @@
+/* eslint-disable react/display-name */
 import { css, Global } from '@emotion/core';
+import { EditorType } from '@toast-ui/editor';
+import '@toast-ui/editor/dist/toastui-editor-only.css';
 import { Editor } from '@toast-ui/react-editor';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import PropTypes from 'prop-types';
-import React from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import contentStyles from '../../../../public/styles/content.module.css';
 
 function ToastUIGlobalStyles() {
   return (
@@ -20,10 +21,6 @@ function ToastUIGlobalStyles() {
         .toastui-editor-main .toastui-editor-md-vertical-style .toastui-editor-md-preview {
           display: none;
         }
-
-        .toastui-editor-contents table {
-          width: 100%;
-        }
       `}
     />
   );
@@ -31,83 +28,105 @@ function ToastUIGlobalStyles() {
 
 // TODO: passing the editorControl and components like this is horrible, should
 // be handled through Redux and a separate registry store for instances
-let editorControl;
+let _editorControl;
 // eslint-disable-next-line func-style
-let _getEditorComponents = () => {};
+let _getEditorComponents = () => {
+  return new Map();
+};
 
 export function getEditorControl() {
-  return editorControl;
+  return _editorControl;
 }
 
 export function getEditorComponents() {
+  console.log('_getEditorComponents()', _getEditorComponents());
   return _getEditorComponents();
 }
 
-interface MarkdownControlProps {
-  value: string;
-  onChange(value: string): void;
+function toCleanMarkdown(value: string): string {
+  return value.replace(/<br>/g, '<br />').replace(/<[\/]{0,1}em>/g, '**');
 }
 
-export default class MarkdownControl extends React.Component<MarkdownControlProps> {
-  static propTypes = {
-    onChange: PropTypes.func.isRequired,
-    onAddAsset: PropTypes.func.isRequired,
-    getAsset: PropTypes.func.isRequired,
-    classNameWrapper: PropTypes.string.isRequired,
-    editorControl: PropTypes.elementType.isRequired,
-    value: PropTypes.string,
-    field: ImmutablePropTypes.map.isRequired,
-    getEditorComponents: PropTypes.func,
-    t: PropTypes.func.isRequired
-  };
+function toCleanValue(value: string): string {
+  return value.replace(/<br \/>/g, '<br>').replace(/<[\/]{0,1}em>/g, '**');
+}
 
-  static defaultProps = {
-    value: ''
-  };
+interface MarkdownControlProps {
+  value?: string;
+  classNameWrapper: string;
+  editorControl: React.ReactNode;
+  field: Record<any, any>;
+  onChange(value: string): void;
+  onAddAsset(): void;
+  getAsset(): void;
+  getEditorComponents: () => Map<any, any>;
+  t(): void;
+}
 
-  editorRef = React.createRef<Editor>();
+const MarkdownControl = memo(({ value = '', onChange, getEditorComponents, editorControl }: MarkdownControlProps) => {
+  const editorRef = useRef<Editor>();
+  const [editorType, setEditorType] = useState<EditorType>('markdown');
 
-  constructor(props) {
-    super(props);
-    editorControl = props.editorControl;
+  const cleanValue = useMemo(() => toCleanValue(value), [value]);
 
-    _getEditorComponents = props.getEditorComponents;
-    this.state = {
-      pendingFocus: false
-    };
-  }
+  useEffect(() => {
+    _getEditorComponents = getEditorComponents;
+  }, [getEditorComponents]);
 
-  componentDidMount() {}
+  useEffect(() => {
+    _editorControl = editorControl;
+  }, [editorControl]);
 
-  componentDidUpdate() {
-    const content = this.editorRef.current.getInstance().getMarkdown();
-    const cleanValue = this.props.value.replace(/<br \/>/g, '<br>');
+  const setValueAsContent = useCallback(() => {
+    const content = editorRef.current.getInstance().getMarkdown();
     if (content !== cleanValue) {
-      this.editorRef.current.getInstance().setMarkdown(cleanValue);
+      console.log('setting value to', cleanValue);
+      editorRef.current.getInstance().setMarkdown(cleanValue);
     }
-  }
+  }, [cleanValue]);
 
-  onChange = () => {
-    const content = this.editorRef.current.getInstance().getMarkdown();
-    const cleanContent = content.replace(/<br>/g, '<br />');
-    this.props.onChange(cleanContent);
-  };
+  useEffect(() => {
+    setValueAsContent();
+  }, [setValueAsContent]);
 
-  render() {
-    const { value } = this.props;
-    return (
+  const handleOnChange = useCallback(
+    (newEditorType: EditorType) => {
+      const content = editorRef.current.getInstance()?.getMarkdown();
+      if (newEditorType !== editorType) {
+        setEditorType(newEditorType);
+        setValueAsContent();
+        console.log('editor changed!');
+        return;
+      }
+
+      if (content.trim() === '') {
+        return;
+      }
+
+      onChange(toCleanMarkdown(content));
+    },
+    [editorType, onChange, setValueAsContent]
+  );
+
+  return useMemo(
+    () => (
       <>
         <ToastUIGlobalStyles />
-        <Editor
-          ref={this.editorRef}
-          initialValue={value}
-          previewStyle="vertical"
-          height="600px"
-          initialEditType="markdown"
-          useCommandShortcut={true}
-          onChange={this.onChange}
-        />
+        <div className={contentStyles.content}>
+          <Editor
+            ref={editorRef}
+            initialValue={cleanValue}
+            initialEditType="wysiwyg"
+            previewStyle="vertical"
+            height="auto"
+            useCommandShortcut={true}
+            onChange={handleOnChange}
+          />
+        </div>
       </>
-    );
-  }
-}
+    ),
+    [cleanValue, handleOnChange]
+  );
+});
+
+export default MarkdownControl;

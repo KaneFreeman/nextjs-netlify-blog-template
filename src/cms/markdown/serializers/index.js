@@ -155,6 +155,7 @@ export function remarkToMarkdown(obj, remarkPlugins) {
  * Convert Markdown to HTML.
  */
 export function markdownToHtml(markdown, { getAsset, resolveWidget, remarkPlugins = [] } = {}) {
+  console.log('remarkPlugins', remarkPlugins);
   const mdast = markdownToRemark(markdown, remarkPlugins);
 
   const hast = unified()
