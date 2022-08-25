@@ -3,11 +3,7 @@ import PageView from '../pages/PageView';
 
 const PagePreview = ({ entry, widgetFor }: PreviewTemplateComponentProps) => {
   return (
-    <PageView
-      title={entry.getIn(['data', 'title'])}
-      date={entry.getIn(['data', 'date'])}
-      tags={entry.getIn(['data', 'tags'])}
-    >
+    <PageView title={entry.getIn(['data', 'title'])} tags={entry.getIn(['data', 'tags'])}>
       {widgetFor('body')}
     </PageView>
   );
