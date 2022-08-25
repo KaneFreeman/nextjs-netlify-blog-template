@@ -10,11 +10,15 @@
 
 .content p {
   line-height: 1.5rem;
-  margin: 1.5rem 0 0 0;
+  margin: 0 0 16px;
 }
 
 .content a {
-  color: blue;
+  color: #806d3c;
+  text-decoration: none;
+}
+
+.content a:hover {
   text-decoration: underline;
 }
 
@@ -28,6 +32,18 @@
 .content h5 {
   margin: 2rem 0 0 0;
   line-height: 1.25em;
+  font-weight: 300;
+  margin: 0 0 16px;
+}
+
+.content h3 {
+  color: rgb(104, 11, 18);
+  font-size: 25px;
+  line-height: 27px;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
 }
 
 .content h2::before {
@@ -140,4 +156,9 @@
   .content h2::before {
     display: block;
   }
+}
+
+.content b,
+.content strong {
+  font-weight: 700;
 }

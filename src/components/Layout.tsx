@@ -32,19 +32,14 @@ export default function Layout({ children }: LayoutProps) {
         component="main"
         sx={{
           display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
           minHeight: '100%',
           flex: isSmallScreen ? '1 0 auto' : undefined
         }}
       >
         {children}
       </Box>
-      <style jsx>
-        {`
-          #__next {
-            height: 100%;
-          }
-        `}
-      </style>
     </Box>
   );
 }

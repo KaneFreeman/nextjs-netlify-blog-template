@@ -24,23 +24,6 @@ export default function Pagination({ current, pages, link }: Props) {
           )}
         </li>
       ))}
-      <style jsx>{`
-        ul {
-          list-style: none;
-          margin: 3rem 0 0 0;
-          padding: 0;
-        }
-        li {
-          display: inline-block;
-          margin-right: 1em;
-          color: #9b9b9b;
-          font-size: 1.25rem;
-        }
-        a.active {
-          color: #222;
-          font-weight: bold;
-        }
-      `}</style>
     </ul>
   );
 }

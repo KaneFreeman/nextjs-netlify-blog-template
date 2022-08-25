@@ -1,6 +1,6 @@
-import config from "../../config.json";
+import config from "../../content/config.json";
 
-type Config = {
+interface Config {
   readonly base_url: string;
   readonly site_title: string;
   readonly site_description: string;

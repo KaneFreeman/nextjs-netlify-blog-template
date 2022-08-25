@@ -1,11 +1,11 @@
-import React from 'react';
-import Twitter from '../assets/twitter-alt.svg';
-import GitHub from '../assets/github-alt.svg';
-import config from '../lib/config';
+import Box from '@mui/material/Box';
+import GitHub from '../../../assets/github-alt.svg';
+import Twitter from '../../../assets/twitter-alt.svg';
+import config from '../../../lib/config';
 
-export function SocialList({}) {
+const SocialList = () => {
   return (
-    <div>
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <a
         title="Twitter"
         href={`https://twitter.com/${config.twitter_account}`}
@@ -17,14 +17,8 @@ export function SocialList({}) {
       <a title="GitHub" href={`https://github.com/${config.github_account}`} target="_blank" rel="noopener noreferrer">
         <GitHub width={24} height={24} fill={'#222'} />
       </a>
-      <style jsx>{`
-        a {
-          display: inline-block;
-        }
-        a:not(:last-child) {
-          margin-right: 2em;
-        }
-      `}</style>
-    </div>
+    </Box>
   );
-}
+};
+
+export default SocialList;

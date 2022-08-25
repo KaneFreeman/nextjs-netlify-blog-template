@@ -1,4 +1,4 @@
-import { CmsConfig } from "netlify-cms-core";
+import { CmsConfig } from 'netlify-cms-core';
 
 const config: CmsConfig = {
   backend: {
@@ -14,8 +14,45 @@ const config: CmsConfig = {
   },
   collections: [
     {
-      name: 'config',
-      label: 'Config',
+      name: 'homepage',
+      label: 'Homepage',
+      delete: false,
+      editor: {
+        preview: true
+      },
+      files: [
+        {
+          name: 'slides',
+          label: 'Slides',
+          file: 'content/homepage/slides.json',
+          description: 'Slides descriptions',
+          fields: [
+            {
+              name: 'slides',
+              label: 'Slides',
+              label_singular: 'Slide',
+              widget: 'list',
+              fields: [
+                {
+                  name: 'image',
+                  label: 'Image',
+                  widget: 'image'
+                },
+                {
+                  name: 'title',
+                  label: 'Title',
+                  widget: 'markdown',
+                  required: false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      name: 'church',
+      label: 'Church Details',
       delete: false,
       editor: {
         preview: false
@@ -23,51 +60,91 @@ const config: CmsConfig = {
       files: [
         {
           name: 'general',
-          label: 'Site Config',
-          file: 'config.json',
-          description: 'General site settings',
+          label: 'General Church Details',
+          file: 'content/church_details.json',
+          description: 'General church details',
           fields: [
             {
-              label: 'URL',
-              name: 'base_url',
-              widget: 'string',
-              hint: 'Do not enter the trailing slash of the URL'
-            },
-            {
-              label: 'Site title',
-              name: 'site_title',
+              name: 'name',
+              label: 'Name',
               widget: 'string'
             },
             {
-              label: 'Site description',
-              name: 'site_description',
+              name: 'address',
+              label: 'Address',
               widget: 'string'
             },
             {
-              label: 'Logo',
-              name: 'logo',
-              widget: 'image'
+              name: 'city',
+              label: 'City',
+              widget: 'string'
             },
             {
-              label: 'Site keywords',
-              name: 'site_keywords',
+              name: 'state',
+              label: 'State',
+              widget: 'string'
+            },
+            {
+              name: 'zipcode',
+              label: 'Zip Code',
+              widget: 'string'
+            },
+            {
+              name: 'phone',
+              label: 'Phone Number',
+              widget: 'string'
+            },
+            {
+              name: 'email',
+              label: 'Email',
+              widget: 'string'
+            },
+            {
+              name: 'mission_statement',
+              label: 'Mission Statement',
+              widget: 'text'
+            },
+            {
+              name: 'vision_statement',
+              label: 'Vision Statement',
+              widget: 'text'
+            }
+          ]
+        },
+        {
+          name: 'bulletins',
+          label: 'Parish Bulletins',
+          file: 'content/bulletins.json',
+          description: 'Parish bulletins',
+          fields: [
+            {
+              name: 'bulletins',
+              label: 'Bulletins',
               widget: 'list',
-              summary: '{{fields.keyword.keyword}}',
-              field: {
-                label: 'Keyword',
-                name: 'keyword',
-                widget: 'string'
-              }
-            },
-            {
-              label: 'Twitter account',
-              name: 'twitter_account',
-              widget: 'string'
-            },
-            {
-              label: 'GitHub account',
-              name: 'github_account',
-              widget: 'string'
+              summary: "{{date | date('MMM DD, YYYY')}} - {{fields.name}}",
+              add_to_top: true,
+              fields: [
+                {
+                  name: 'name',
+                  label: 'Name',
+                  widget: 'string',
+                  default: 'Bulletin'
+                },
+                {
+                  name: 'date',
+                  label: 'Date',
+                  widget: 'datetime',
+                  date_format: 'MMM DD, YYYY',
+                  time_format: false
+                },
+                {
+                  name: 'pdf',
+                  label: 'PDF',
+                  widget: 'file',
+                  media_folder: '/public/bulletins',
+                  public_folder: '/bulletins'
+                }
+              ]
             }
           ]
         }
@@ -84,7 +161,7 @@ const config: CmsConfig = {
         {
           name: 'authors',
           label: 'Authors',
-          file: 'meta/authors.yml',
+          file: 'content/meta/authors.yml',
           description: 'Author descriptions',
           fields: [
             {
@@ -94,20 +171,20 @@ const config: CmsConfig = {
               widget: 'list',
               fields: [
                 {
-                  label: 'Slug',
                   name: 'slug',
+                  label: 'Slug',
                   widget: 'string',
                   hint: 'The part of a URL identifies the author'
                 },
                 {
-                  label: 'Name',
                   name: 'name',
+                  label: 'Name',
                   widget: 'string',
                   hint: 'First and Last'
                 },
                 {
-                  label: 'Introduction',
                   name: 'introduction',
+                  label: 'Introduction',
                   widget: 'text'
                 }
               ]
@@ -117,7 +194,7 @@ const config: CmsConfig = {
         {
           name: 'tags',
           label: 'Tags',
-          file: 'meta/tags.yml',
+          file: 'content/meta/tags.yml',
           description: 'List of tags',
           fields: [
             {
@@ -127,14 +204,14 @@ const config: CmsConfig = {
               widget: 'list',
               fields: [
                 {
-                  label: 'Slug',
                   name: 'slug',
+                  label: 'Slug',
                   widget: 'string',
                   hint: 'The part of a URL identifies the tag'
                 },
                 {
-                  label: 'Display Name',
                   name: 'name',
+                  label: 'Display Name',
                   widget: 'string',
                   hint: 'Tag name for displaying on the site'
                 }
@@ -156,26 +233,26 @@ const config: CmsConfig = {
       summary: '{{title}}',
       fields: [
         {
-          label: 'Slug',
           name: 'slug',
+          label: 'Slug',
           widget: 'string'
         },
         {
-          label: 'Title',
           name: 'title',
+          label: 'Title',
           widget: 'string'
         },
         {
-          label: 'Publish Date',
           name: 'date',
+          label: 'Publish Date',
           widget: 'datetime',
           format: 'YYYY-MM-DD',
           date_format: 'YYYY-MM-DD',
           time_format: false
         },
         {
-          label: 'Author',
           name: 'author',
+          label: 'Author',
           widget: 'relation',
           collection: 'meta',
           file: 'authors',
@@ -184,9 +261,9 @@ const config: CmsConfig = {
           value_field: 'authors.*.slug'
         },
         {
+          name: 'tags',
           label: 'Tags',
           label_singular: 'Tag',
-          name: 'tags',
           widget: 'list',
           summary: '{{fields.tag}}',
           field: {
@@ -201,8 +278,8 @@ const config: CmsConfig = {
           }
         },
         {
-          label: 'Body',
           name: 'body',
+          label: 'Body',
           widget: 'markdown'
         }
       ]
@@ -219,32 +296,32 @@ const config: CmsConfig = {
       summary: '{{title}}',
       fields: [
         {
-          label: 'Slug',
           name: 'slug',
+          label: 'Slug',
           widget: 'string'
         },
         {
-          label: 'Title',
           name: 'title',
+          label: 'Title',
           widget: 'string'
         },
         {
-          label: 'Publish Date',
           name: 'date',
+          label: 'Publish Date',
           widget: 'datetime',
           format: 'YYYY-MM-DD',
           date_format: 'YYYY-MM-DD',
           time_format: false
         },
         {
+          name: 'tags',
           label: 'Tags',
           label_singular: 'Tag',
-          name: 'tags',
           widget: 'list',
           summary: '{{fields.tag}}',
           field: {
-            label: 'Tag',
             name: 'tag',
+            label: 'Tag',
             widget: 'relation',
             collection: 'meta',
             file: 'tags',
@@ -254,44 +331,137 @@ const config: CmsConfig = {
           }
         },
         {
-          label: 'Body',
           name: 'body',
+          label: 'Body',
           widget: 'markdown'
         }
       ]
     },
     {
-      name: 'homepage',
-      label: 'Homepage',
+      name: 'config',
+      label: 'Site Config',
       delete: false,
       editor: {
-        preview: true
+        preview: false
       },
       files: [
         {
-          name: 'slides',
-          label: 'Slides',
-          file: 'homepage/slides.json',
-          description: 'Slides descriptions',
+          name: 'general',
+          label: 'General Site Config',
+          file: 'content/config.json',
+          description: 'General site settings',
           fields: [
             {
-              name: 'slides',
-              label: 'Slides',
-              label_singular: 'Slide',
+              name: 'base_url',
+              label: 'URL',
+              widget: 'string',
+              hint: 'Do not enter the trailing slash of the URL'
+            },
+            {
+              name: 'site_title',
+              label: 'Site title',
+              widget: 'string'
+            },
+            {
+              name: 'site_description',
+              label: 'Site description',
+              widget: 'string'
+            },
+            {
+              name: 'logo',
+              label: 'Logo',
+              widget: 'image'
+            },
+            {
+              name: 'site_keywords',
+              label: 'Site keywords',
               widget: 'list',
+              summary: '{{fields.keyword.keyword}}',
+              field: {
+                name: 'keyword',
+                label: 'Keyword',
+                widget: 'string'
+              }
+            },
+            {
+              name: 'twitter_account',
+              label: 'Twitter account',
+              widget: 'string'
+            },
+            {
+              name: 'github_account',
+              label: 'GitHub account',
+              widget: 'string'
+            }
+          ]
+        },
+        {
+          name: 'quick_links',
+          label: 'Quick Links',
+          file: 'content/quick_links.json',
+          description: 'Parish bulletins',
+          fields: [
+            {
+              name: 'quick_links',
+              label: 'Quick Links',
+              widget: 'list',
+              summary: '{{fields.title}} ({{url}})',
               fields: [
                 {
-                  label: 'Image',
-                  name: 'image',
-                  widget: 'image'
+                  name: 'title',
+                  label: 'Title',
+                  widget: 'string'
                 },
                 {
-                  label: 'Title',
-                  name: 'title',
-                  widget: 'markdown',
+                  name: 'subtitle',
+                  label: 'Subtitle',
+                  widget: 'string',
                   required: false
+                },
+                {
+                  name: 'url',
+                  label: 'URL',
+                  widget: 'string',
+                  time_format: false
+                },
+                {
+                  name: 'background',
+                  label: 'Background Image',
+                  widget: 'image'
                 }
               ]
+            }
+          ]
+        },
+        {
+          name: 'styles',
+          label: 'Site Styles',
+          file: 'content/styles.json',
+          description: 'General site styles',
+          fields: [
+            {
+              name: 'header_background',
+              label: 'Header background',
+              widget: 'image'
+            },
+            {
+              name: 'header_color',
+              label: 'Header color',
+              widget: 'color'
+            },
+            {
+              name: 'header_font_style',
+              label: 'Header font style',
+              widget: 'select',
+              options: [
+                { label: 'Normal', value: 'normal' },
+                { label: 'Italic', value: 'italic' }
+              ]
+            },
+            {
+              name: 'footer_background',
+              label: 'Footer background',
+              widget: 'image'
             }
           ]
         }

@@ -9,8 +9,8 @@ import InstagramEmbed from 'react-instagram-embed';
 import { TwitterTweetEmbed } from 'react-twitter-embed';
 import YouTube from 'react-youtube';
 import remarkGfm from 'remark-gfm';
-import PageLayout from '../../components/pages/PageLayout';
-import { fetchPageContent } from '../../lib/pages';
+import PageLayout from '../components/pages/PageLayout';
+import { fetchPageContent } from '../lib/pages';
 
 export type Props = {
   title: string;
@@ -37,7 +37,7 @@ export default function Page({ title, dateString, slug, tags, description = '', 
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = fetchPageContent().map((it) => '/pages/' + it.slug);
+  const paths = fetchPageContent().map((it) => '/' + it.slug);
   return {
     paths,
     fallback: false

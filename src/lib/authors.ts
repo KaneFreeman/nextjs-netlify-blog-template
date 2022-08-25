@@ -1,4 +1,4 @@
-import authors from "../../meta/authors.yml";
+import authors from "../../content/meta/authors.yml";
 
 export type AuthorContent = {
   readonly slug: string;

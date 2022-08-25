@@ -39,7 +39,6 @@ export function getEditorControl() {
 }
 
 export function getEditorComponents() {
-  console.log('_getEditorComponents()', _getEditorComponents());
   return _getEditorComponents();
 }
 
@@ -80,7 +79,6 @@ const MarkdownControl = memo(({ value = '', onChange, getEditorComponents, edito
   const setValueAsContent = useCallback(() => {
     const content = editorRef.current.getInstance().getMarkdown();
     if (content !== cleanValue) {
-      console.log('setting value to', cleanValue);
       editorRef.current.getInstance().setMarkdown(cleanValue);
     }
   }, [cleanValue]);
@@ -95,7 +93,6 @@ const MarkdownControl = memo(({ value = '', onChange, getEditorComponents, edito
       if (newEditorType !== editorType) {
         setEditorType(newEditorType);
         setValueAsContent();
-        console.log('editor changed!');
         return;
       }
 
