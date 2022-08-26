@@ -396,6 +396,73 @@ const config: CmsConfig = {
           ]
         },
         {
+          name: 'menu',
+          label: 'Menu',
+          file: 'content/menu.json',
+          description: 'Parish bulletins',
+          fields: [
+            {
+              name: 'menu_items',
+              label: 'Menu Items',
+              widget: 'list',
+              summary: '{{fields.title}}',
+              fields: [
+                {
+                  name: 'title',
+                  label: 'Title',
+                  widget: 'string'
+                },
+                {
+                  name: 'url',
+                  label: 'URL',
+                  widget: 'string',
+                  required: false
+                },
+                {
+                  name: 'page',
+                  label: 'Page',
+                  widget: 'relation',
+                  collection: 'pages',
+                  search_fields: ['title'],
+                  display_fields: ['title'],
+                  value_field: 'slug',
+                  required: false
+                },
+                {
+                  name: 'menu_links',
+                  label: 'Menu Links',
+                  widget: 'list',
+                  summary: '{{fields.title}}',
+                  required: false,
+                  fields: [
+                    {
+                      name: 'title',
+                      label: 'Title',
+                      widget: 'string'
+                    },
+                    {
+                      name: 'url',
+                      label: 'URL',
+                      widget: 'string',
+                      required: false
+                    },
+                    {
+                      name: 'page',
+                      label: 'Page',
+                      widget: 'relation',
+                      collection: 'pages',
+                      search_fields: ['title'],
+                      display_fields: ['title'],
+                      value_field: 'slug',
+                      required: false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
           name: 'quick_links',
           label: 'Quick Links',
           file: 'content/quick_links.json',

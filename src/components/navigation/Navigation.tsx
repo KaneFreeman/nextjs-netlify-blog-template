@@ -2,7 +2,6 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
@@ -16,9 +15,10 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import { useTheme } from '@mui/system';
 import { useRouter } from 'next/router';
 import { useCallback, useMemo, useState } from 'react';
-import { MAX_APP_WIDTH } from '../constants';
-import config from '../lib/config';
-import { SerializedSlide } from '../lib/slides';
+import { MAX_APP_WIDTH } from '../../constants';
+import config from '../../lib/config';
+import navItems from '../../lib/menu';
+import NavItem from './NavItem';
 
 const DRAWER_WIDTH = 240;
 
@@ -30,8 +30,6 @@ export default function Navigation() {
     setMobileOpen(!mobileOpen);
   }, [mobileOpen]);
 
-  const navItems = useMemo(() => ['blogs', 'about'], []);
-
   const drawer = useMemo(
     () => (
       <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
@@ -41,16 +39,16 @@ export default function Navigation() {
         <Divider />
         <List>
           {navItems.map((item) => (
-            <ListItem key={item} disablePadding>
+            <ListItem key={`drawer-nav-item-${item.title}`} disablePadding>
               <ListItemButton sx={{ textAlign: 'center' }}>
-                <ListItemText primary={item} />
+                <ListItemText primary={item.title} />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
       </Box>
     ),
-    [handleDrawerToggle, navItems]
+    [handleDrawerToggle]
   );
 
   const container = useMemo(() => (typeof window !== 'undefined' ? window.document.body : undefined), []);
@@ -98,11 +96,9 @@ export default function Navigation() {
             }}
           />
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+          <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
             {navItems.map((item) => (
-              <Button key={item} sx={{ color: '#fff' }}>
-                {item}
-              </Button>
+              <NavItem key={`nav-item-${item.title}`} item={item} />
             ))}
           </Box>
         </Toolbar>

@@ -1,9 +1,10 @@
 /* eslint-disable react/display-name */
 import { css, Global } from '@emotion/core';
-import { EditorType } from '@toast-ui/editor';
+import Box from '@mui/material/Box';
 import '@toast-ui/editor/dist/toastui-editor-only.css';
 import { Editor } from '@toast-ui/react-editor';
-import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { CmsWidgetControlProps } from 'netlify-cms-core';
+import { forwardRef, ReactNode, useCallback, useEffect, useMemo, useRef } from 'react';
 import contentStyles from '../../../../public/styles/content.module.css';
 
 function ToastUIGlobalStyles() {
@@ -50,80 +51,65 @@ function toCleanValue(value: string): string {
   return value.replace(/<br \/>/g, '<br>').replace(/<[\/]{0,1}em>/g, '**');
 }
 
-interface MarkdownControlProps {
-  value?: string;
-  classNameWrapper: string;
-  editorControl: React.ReactNode;
-  field: Record<any, any>;
-  onChange(value: string): void;
+interface MarkdownControlProps extends CmsWidgetControlProps<string> {
+  value: string;
+  editorControl: ReactNode;
   onAddAsset(): void;
   getAsset(): void;
   getEditorComponents: () => Map<any, any>;
   t(): void;
 }
 
-const MarkdownControl = memo(({ value = '', onChange, getEditorComponents, editorControl }: MarkdownControlProps) => {
-  const editorRef = useRef<Editor>();
-  const [editorType, setEditorType] = useState<EditorType>('markdown');
+const MarkdownControl = forwardRef(
+  ({ value = '', onChange, getEditorComponents, editorControl }: MarkdownControlProps, ref) => {
+    const editorRef = useRef<Editor>();
 
-  const cleanValue = useMemo(() => toCleanValue(value), [value]);
+    const cleanValue = useMemo(() => toCleanValue(value), [value]);
 
-  useEffect(() => {
-    _getEditorComponents = getEditorComponents;
-  }, [getEditorComponents]);
+    useEffect(() => {
+      _getEditorComponents = getEditorComponents;
+    }, [getEditorComponents]);
 
-  useEffect(() => {
-    _editorControl = editorControl;
-  }, [editorControl]);
+    useEffect(() => {
+      _editorControl = editorControl;
+    }, [editorControl]);
 
-  const setValueAsContent = useCallback(() => {
-    const content = editorRef.current.getInstance().getMarkdown();
-    if (content !== cleanValue) {
-      editorRef.current.getInstance().setMarkdown(cleanValue);
-    }
-  }, [cleanValue]);
-
-  useEffect(() => {
-    setValueAsContent();
-  }, [setValueAsContent]);
-
-  const handleOnChange = useCallback(
-    (newEditorType: EditorType) => {
-      const content = editorRef.current.getInstance()?.getMarkdown();
-      if (newEditorType !== editorType) {
-        setEditorType(newEditorType);
-        setValueAsContent();
-        return;
+    useEffect(() => {
+      const content = editorRef.current.getInstance().getMarkdown();
+      if (content !== cleanValue) {
+        editorRef.current.getInstance().setMarkdown(cleanValue);
       }
+    }, [cleanValue]);
 
+    const handleOnChange = useCallback(() => {
+      const content = editorRef.current.getInstance()?.getMarkdown();
       if (content.trim() === '') {
         return;
       }
 
       onChange(toCleanMarkdown(content));
-    },
-    [editorType, onChange, setValueAsContent]
-  );
+    }, [onChange]);
 
-  return useMemo(
-    () => (
-      <>
-        <ToastUIGlobalStyles />
-        <div className={contentStyles.content}>
-          <Editor
-            ref={editorRef}
-            initialValue={cleanValue}
-            initialEditType="wysiwyg"
-            previewStyle="vertical"
-            height="auto"
-            useCommandShortcut={true}
-            onChange={handleOnChange}
-          />
-        </div>
-      </>
-    ),
-    [cleanValue, handleOnChange]
-  );
-});
+    return useMemo(
+      () => (
+        <Box ref={ref}>
+          <ToastUIGlobalStyles />
+          <div className={contentStyles.content}>
+            <Editor
+              ref={editorRef}
+              initialValue={cleanValue}
+              initialEditType="wysiwyg"
+              previewStyle="vertical"
+              height="auto"
+              useCommandShortcut={true}
+              onChange={handleOnChange}
+            />
+          </div>
+        </Box>
+      ),
+      [ref, cleanValue, handleOnChange]
+    );
+  }
+);
 
 export default MarkdownControl;

@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Head from 'next/head';
 import useSmallScreen from '../util/smallScreen.util';
-import Navigation from './Navigation';
+import Navigation from './navigation/Navigation';
 
 interface LayoutProps {
   children: React.ReactNode;

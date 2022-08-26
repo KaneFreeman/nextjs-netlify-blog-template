@@ -11,7 +11,6 @@ interface SearchProps {
 }
 
 const Search = ({ searchMatter }: SearchProps) => {
-  console.log(searchMatter);
   return (
     <PageLayout title="Parish Bulletins">
       <Box sx={{ display: 'flex', flexDirection: 'column' }} className={contentStyles.content}>
