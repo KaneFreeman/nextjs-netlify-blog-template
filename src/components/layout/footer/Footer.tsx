@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
 import churchDetails from '../../../lib/church_details';
 import styles from '../../../lib/styles';
 import Container from '../Container';
@@ -9,6 +10,8 @@ import FooterHeader from './FooterHeader';
 import SearchBox from './SearchBox';
 
 const Footer = () => {
+  const theme = useTheme();
+
   return (
     <Box
       component="footer"
@@ -25,15 +28,27 @@ const Footer = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          pt: 5,
-          pb: 1
+          pb: 1,
+          [theme.breakpoints.down('md')]: {
+            pt: 2,
+          },
+          [theme.breakpoints.up('md')]: {
+            pt: 5,
+          }
         }}
       >
         <Container
           sx={{
             display: 'grid',
-            gridTemplateColumns: '2fr 1fr',
-            gap: 6
+            [theme.breakpoints.down('md')]: {
+              gridTemplateColumns: '1fr',
+              p: 3,
+              gap: 2
+            },
+            [theme.breakpoints.up('md')]: {
+              gridTemplateColumns: '2fr 1fr',
+              gap: 6,
+            }
           }}
         >
           <Box>

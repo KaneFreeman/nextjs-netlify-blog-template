@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
 import { ReactNode } from 'react';
 import contentStyles from '../../../public/styles/content.module.css';
 import { getTag } from '../../lib/tags';
@@ -14,10 +15,18 @@ interface PageViewProps {
 }
 
 const PageView = ({ title, tags = [], children }: PageViewProps) => {
+  const theme = useTheme();
+
   return (
     <Box
       component="article"
-      sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%' }}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%'
+      }}
     >
       <Box
         component="header"
@@ -27,12 +36,24 @@ const PageView = ({ title, tags = [], children }: PageViewProps) => {
       </Box>
       <Container
         sx={{
-          pt: 6,
-          pb: 1
+          pb: 1,
+          [theme.breakpoints.down('md')]: {
+            pt: 0
+          },
+          [theme.breakpoints.up('md')]: {
+            pt: 6
+          }
         }}
       >
         <Box sx={{ display: 'flex', gap: 4 }}>
-          <Box sx={{ flexGrow: 1 }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              [theme.breakpoints.down('md')]: {
+                p: 3
+              }
+            }}
+          >
             <div className={`content ${contentStyles.content}`}>{children}</div>
             <ul>
               {tags.map((it, i) => (

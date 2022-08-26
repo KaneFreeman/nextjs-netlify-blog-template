@@ -1,18 +1,22 @@
-module.exports = ({
-  pageExtensions: ["tsx"],
+const withPWA = require('next-pwa')({
+  dest: 'public'
+});
+
+module.exports = withPWA({
+  pageExtensions: ['tsx'],
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.module.rules.push(
       ...[
         {
           test: /\.yml$/,
-          use: "yaml-loader",
+          use: 'yaml-loader'
         },
         {
           test: /\.svg$/,
-          use: "@svgr/webpack",
-        },
+          use: '@svgr/webpack'
+        }
       ]
     );
     return config;
-  },
+  }
 });

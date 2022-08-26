@@ -1,8 +1,15 @@
 import Box from '@mui/material/Box';
 import { MAX_QUICK_LINK_HEIGHT, MAX_QUICK_LINK_WIDTH } from '../../../constants';
 import quickLinks from '../../../lib/quick_links';
+import useSmallScreen from '../../../util/smallScreen.util';
 
 const QuickLinks = () => {
+  const isSmallScreen = useSmallScreen();
+
+  if (isSmallScreen) {
+    return null;
+  }
+
   return (
     <Box sx={{ maxWidth: MAX_QUICK_LINK_WIDTH, width: '100%', display: 'flex', flexDirection: 'column', gap: 5 }}>
       {quickLinks?.map((quickLink) => (

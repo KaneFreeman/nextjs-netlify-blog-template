@@ -34,6 +34,7 @@
     "netlify-cms-ui-default": "2.15.5",
     "next": "12.2.5",
     "next-mdx-remote": "4.1.0",
+    "next-pwa": "^5.6.0",
     "normalize.css": "8.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",

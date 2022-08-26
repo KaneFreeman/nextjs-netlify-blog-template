@@ -1,7 +1,14 @@
-import Box from '@mui/material/Box';
 import CopyrightIcon from '@mui/icons-material/Copyright';
+import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
+import format from 'date-fns/format';
+import { useMemo } from 'react';
+import churchDetails from '../../../lib/church_details';
 
 export default function Copyright() {
+  const theme = useTheme();
+  const year = useMemo(() => format(new Date(), 'yyyy'), []);
+
   return (
     <Box
       sx={{
@@ -13,14 +20,26 @@ export default function Copyright() {
         color: 'rgb(245, 244, 243)',
         backgroundColor: 'rgb(104, 11, 18)',
         boxSizing: 'border-box',
-        height: '44px',
-        fontSize: '14px',
         lineHeight: '18px',
-        gap: 1
+        gap: 1,
+        [theme.breakpoints.down('md')]: {
+          flexDirection: 'column',
+          fontSize: '12px',
+          pt: 1,
+          pb: 1
+        },
+        [theme.breakpoints.up('md')]: {
+          fontSize: '14px',
+          height: '44px'
+        }
       }}
     >
-      <CopyrightIcon fontSize="small" />
-      <Box>2022 Saint Joseph Catholic Church. All Rights Reserved.</Box>
+      <Box sx={{ display: 'flex', gap: 1 }}>
+        <CopyrightIcon fontSize="small" />
+        <Box>
+          {year} {churchDetails.name}. All Rights Reserved.
+        </Box>
+      </Box>
       <Box
         sx={{
           color: '#988773',

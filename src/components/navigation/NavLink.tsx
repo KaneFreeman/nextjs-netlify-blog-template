@@ -28,15 +28,19 @@ interface NavLinkProps {
   onClick: (event: MouseEvent) => void;
 }
 
-const NavLink = ({ link: { url, title }, onClick }: NavLinkProps) => {
+const NavLink = ({ link: { url, page, title }, onClick }: NavLinkProps) => {
   const navigate = useNavigate();
 
   const handleOnClick = useCallback(
     (event: MouseEvent) => {
-      navigate(url);
+      if (url) {
+        navigate(url);
+      } else if (page) {
+        navigate(`/${page}`);
+      }
       onClick(event);
     },
-    [navigate, onClick, url]
+    [navigate, onClick, page, url]
   );
 
   return (

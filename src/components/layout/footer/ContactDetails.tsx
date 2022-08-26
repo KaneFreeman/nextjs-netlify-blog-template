@@ -21,7 +21,14 @@ const ChurchDetailsLink = styled('a')`
 
 const ContactDetails = () => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 0.5,
+        fontSize: 16
+      }}
+    >
       <Box>
         <strong>{churchDetails.name}</strong>
       </Box>

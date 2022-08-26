@@ -3,75 +3,101 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
+import { styled } from '@mui/material/styles';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import { useTheme } from '@mui/system';
-import { useRouter } from 'next/router';
 import { useCallback, useMemo, useState } from 'react';
 import { MAX_APP_WIDTH } from '../../constants';
 import config from '../../lib/config';
 import navItems from '../../lib/menu';
+import useSmallScreen from '../../util/smallScreen.util';
+import MobileNavItem from './MobileNavItem';
 import NavItem from './NavItem';
 
 const DRAWER_WIDTH = 240;
 
+const StyledLink = styled('a')`
+  display: flex;
+`;
+
 export default function Navigation() {
-  const router = useRouter();
+  const isSmallScreen = useSmallScreen();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const theme = useTheme();
+  const trigger = useScrollTrigger();
 
   const handleDrawerToggle = useCallback(() => {
     setMobileOpen(!mobileOpen);
   }, [mobileOpen]);
 
+  const iOS = useMemo(() => typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent), []);
+
   const drawer = useMemo(
     () => (
-      <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-        <Typography variant="h6" sx={{ my: 2 }}>
-          MUI
-        </Typography>
-        <Divider />
+      <Box
+        onClick={handleDrawerToggle}
+        sx={{
+          pt: 2,
+          textAlign: 'center'
+        }}
+      >
+        <Box
+          component="img"
+          src={config.logo}
+          alt={config.site_title}
+          sx={{
+            [theme.breakpoints.down('md')]: {
+              height: '50px',
+              padding: '3px 0',
+              boxSizing: 'border-box'
+            },
+            [theme.breakpoints.up('md')]: {
+              transition: 'height,padding 0.5s ease;',
+              height: '100%',
+              padding: trigger ? '8px 0' : '16px 0',
+              boxSizing: 'border-box'
+            }
+          }}
+        />
+        <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.8)', pt: 1 }} />
         <List>
           {navItems.map((item) => (
-            <ListItem key={`drawer-nav-item-${item.title}`} disablePadding>
-              <ListItemButton sx={{ textAlign: 'center' }}>
-                <ListItemText primary={item.title} />
-              </ListItemButton>
-            </ListItem>
+            <MobileNavItem key={`drawer-nav-item-${item.title}`} item={item} />
           ))}
         </List>
       </Box>
     ),
-    [handleDrawerToggle]
+    [handleDrawerToggle, theme.breakpoints, trigger]
   );
 
   const container = useMemo(() => (typeof window !== 'undefined' ? window.document.body : undefined), []);
-
-  const theme = useTheme();
-  const trigger = useScrollTrigger();
 
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar
         component="nav"
         sx={{
-          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          backgroundColor: 'rgba(10, 10, 10, 1)',
           alignItems: 'center'
         }}
       >
         <Toolbar
           sx={{
+            width: '100%',
+            boxSizing: 'border-box',
+            [theme.breakpoints.down('md')]: {
+              pl: 3,
+              pr: 1
+            },
             [theme.breakpoints.up('md')]: {
               transition: 'height 0.5s ease;',
               height: trigger ? 64 : 92,
-              maxWidth: MAX_APP_WIDTH,
-              width: '100%'
+              maxWidth: MAX_APP_WIDTH
             }
           }}
         >
@@ -80,45 +106,66 @@ export default function Navigation() {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ display: { sm: 'none' } }}
           >
             <MenuIcon />
           </IconButton>
-          <Box
-            component="img"
-            src={config.logo}
-            alt={config.site_title}
-            sx={{
-              transition: 'height,padding 0.5s ease;',
-              height: '100%',
-              padding: trigger ? '8px 0' : '16px 0',
-              boxSizing: 'border-box'
-            }}
-          />
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
-            {navItems.map((item) => (
-              <NavItem key={`nav-item-${item.title}`} item={item} />
-            ))}
-          </Box>
+          {isSmallScreen ? <Box sx={{ flexGrow: 1 }} /> : null}
+          <StyledLink href="/">
+            <Box
+              component="img"
+              src={config.logo}
+              alt={config.site_title}
+              sx={{
+                [theme.breakpoints.down('md')]: {
+                  height: '50px',
+                  padding: '3px 0',
+                  boxSizing: 'border-box'
+                },
+                [theme.breakpoints.up('md')]: {
+                  transition: 'height,padding 0.5s ease;',
+                  height: '100%',
+                  padding: trigger ? '8px 0' : '16px 0',
+                  boxSizing: 'border-box'
+                }
+              }}
+            />
+          </StyledLink>
+          {!isSmallScreen ? (
+            <>
+              <Box sx={{ flexGrow: 1 }} />
+              <Box sx={{ display: 'flex' }}>
+                {navItems.map((item) => (
+                  <NavItem key={`nav-item-${item.title}`} item={item} />
+                ))}
+              </Box>
+            </>
+          ) : null}
         </Toolbar>
       </AppBar>
       <Box component="nav">
-        <Drawer
+        <SwipeableDrawer
+          disableBackdropTransition={!iOS}
+          disableDiscovery={iOS}
           container={container}
           variant="temporary"
           open={mobileOpen}
+          onOpen={handleDrawerToggle}
           onClose={handleDrawerToggle}
           ModalProps={{
             keepMounted: true // Better open performance on mobile.
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH }
+            '& .MuiDrawer-paper': {
+              backgroundColor: '#680b12',
+              boxSizing: 'border-box',
+              width: DRAWER_WIDTH
+            }
           }}
         >
           {drawer}
-        </Drawer>
+        </SwipeableDrawer>
       </Box>
     </Box>
   );
