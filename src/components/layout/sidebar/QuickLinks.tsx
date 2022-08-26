@@ -1,17 +1,24 @@
 import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
 import { MAX_QUICK_LINK_HEIGHT, MAX_QUICK_LINK_WIDTH } from '../../../constants';
 import quickLinks from '../../../lib/quick_links';
-import useSmallScreen from '../../../util/smallScreen.util';
 
 const QuickLinks = () => {
-  const isSmallScreen = useSmallScreen();
-
-  if (isSmallScreen) {
-    return null;
-  }
+  const theme = useTheme();
 
   return (
-    <Box sx={{ maxWidth: MAX_QUICK_LINK_WIDTH, width: '100%', display: 'flex', flexDirection: 'column', gap: 5 }}>
+    <Box
+      sx={{
+        maxWidth: MAX_QUICK_LINK_WIDTH,
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 5,
+        [theme.breakpoints.down('md')]: {
+          display: 'none'
+        }
+      }}
+    >
       {quickLinks?.map((quickLink) => (
         <Box
           sx={{

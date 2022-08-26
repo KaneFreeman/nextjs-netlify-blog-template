@@ -3,7 +3,6 @@ import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
 import Box from '@mui/material/Box';
 import { styled, useTheme } from '@mui/material/styles';
 import churchDetails from '../../../lib/church_details';
-import useSmallScreen from '../../../util/smallScreen.util';
 
 const ChurchDetailsHeaderLink = styled('a')`
   display: flex;
@@ -25,7 +24,6 @@ const CenteredBox = styled(Box)`
 
 const ChurchDetailsHeader = () => {
   const theme = useTheme();
-  const isSmallScreen = useSmallScreen();
 
   return (
     <Box
@@ -70,18 +68,9 @@ const ChurchDetailsHeader = () => {
           target="_blank"
           rel="noreferrer"
         >
-          {isSmallScreen ? (
-            <CenteredBox sx={{ display: 'flex', flexDirection: 'column' }}>
-              <CenteredBox>{churchDetails.address}</CenteredBox>
-              <CenteredBox>
-                {churchDetails.city}, {churchDetails.state} {churchDetails.zipcode}
-              </CenteredBox>
-            </CenteredBox>
-          ) : (
-            <CenteredBox>
-              {churchDetails.address} - {churchDetails.city}, {churchDetails.state} {churchDetails.zipcode}
-            </CenteredBox>
-          )}
+          <CenteredBox>
+            {churchDetails.address} - {churchDetails.city}, {churchDetails.state} {churchDetails.zipcode}
+          </CenteredBox>
         </ChurchDetailsHeaderLink>
       </CenteredBox>
       <Box

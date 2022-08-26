@@ -110,7 +110,14 @@ export default function Navigation() {
           >
             <MenuIcon />
           </IconButton>
-          {isSmallScreen ? <Box sx={{ flexGrow: 1 }} /> : null}
+          <Box
+            sx={{
+              flexGrow: 1,
+              [theme.breakpoints.down('md')]: {
+                display: 'none'
+              }
+            }}
+          />
           <StyledLink sx={{ height: '100%' }} href="/">
             <Box
               component="img"
@@ -131,16 +138,26 @@ export default function Navigation() {
               }}
             />
           </StyledLink>
-          {!isSmallScreen ? (
-            <>
-              <Box sx={{ flexGrow: 1 }} />
-              <Box sx={{ display: 'flex' }}>
-                {navItems.map((item) => (
-                  <NavItem key={`nav-item-${item.title}`} item={item} />
-                ))}
-              </Box>
-            </>
-          ) : null}
+          <Box
+            sx={{
+              flexGrow: 1,
+              [theme.breakpoints.down('md')]: {
+                display: 'none'
+              }
+            }}
+          />
+          <Box
+            sx={{
+              display: 'flex',
+              [theme.breakpoints.down('md')]: {
+                display: 'none'
+              }
+            }}
+          >
+            {navItems.map((item) => (
+              <NavItem key={`nav-item-${item.title}`} item={item} />
+            ))}
+          </Box>
         </Toolbar>
       </AppBar>
       <Box component="nav">
