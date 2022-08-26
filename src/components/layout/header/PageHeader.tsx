@@ -51,7 +51,7 @@ const PageHeader = ({ title }: PageHeaderProps) => {
           {title}
         </Box>
       </Box>
-      {!isSmallScreen ? <ChurchDetailsHeader /> : null}
+      <ChurchDetailsHeader />
     </>
   );
 };

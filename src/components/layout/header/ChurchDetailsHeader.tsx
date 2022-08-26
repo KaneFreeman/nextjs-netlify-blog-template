@@ -39,18 +39,31 @@ const ChurchDetailsHeader = () => {
         width: '100%',
         borderTop: '1px solid rgb(225, 209, 169)',
         [theme.breakpoints.down('md')]: {
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 0
+          display: 'none'
         },
         [theme.breakpoints.up('md')]: {
           gap: 0.5
         }
       }}
     >
-      {!isSmallScreen ? <Box sx={{ flexGrow: 1 }} /> : null}
+      <Box
+        sx={{
+          flexGrow: 1,
+          [theme.breakpoints.down('md')]: {
+            display: 'none'
+          }
+        }}
+      />
       <CenteredBox>{churchDetails.name}</CenteredBox>
-      {!isSmallScreen ? <Box>|</Box> : null}
+      <Box
+        sx={{
+          [theme.breakpoints.down('md')]: {
+            display: 'none'
+          }
+        }}
+      >
+        |
+      </Box>
       <CenteredBox>
         <ChurchDetailsHeaderLink
           href={`http://maps.google.com/maps?q=${encodeURIComponent(churchDetails.address)}`}
@@ -71,21 +84,44 @@ const ChurchDetailsHeader = () => {
           )}
         </ChurchDetailsHeaderLink>
       </CenteredBox>
-      {!isSmallScreen ? <Box>|</Box> : null}
+      <Box
+        sx={{
+          [theme.breakpoints.down('md')]: {
+            display: 'none'
+          }
+        }}
+      >
+        |
+      </Box>
       <CenteredBox>
         <ChurchDetailsHeaderLink href={`tel:${churchDetails.phone}`}>
           <PhoneEnabledIcon fontSize="small" />
           {churchDetails.phone}
         </ChurchDetailsHeaderLink>
       </CenteredBox>
-      {!isSmallScreen ? <Box>|</Box> : null}
+      <Box
+        sx={{
+          [theme.breakpoints.down('md')]: {
+            display: 'none'
+          }
+        }}
+      >
+        |
+      </Box>
       <CenteredBox>
         <ChurchDetailsHeaderLink href={`mailto:${churchDetails.email}`} target="_blank" rel="noreferrer">
           <EmailIcon fontSize="small" />
           {churchDetails.email}
         </ChurchDetailsHeaderLink>
       </CenteredBox>
-      {!isSmallScreen ? <Box sx={{ flexGrow: 1 }} /> : null}
+      <Box
+        sx={{
+          flexGrow: 1,
+          [theme.breakpoints.down('md')]: {
+            display: 'none'
+          }
+        }}
+      />
     </Box>
   );
 };
