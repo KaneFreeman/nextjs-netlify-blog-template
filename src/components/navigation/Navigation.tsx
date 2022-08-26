@@ -14,7 +14,6 @@ import { useCallback, useMemo, useState } from 'react';
 import { MAX_APP_WIDTH } from '../../constants';
 import config from '../../lib/config';
 import navItems from '../../lib/menu';
-import useSmallScreen from '../../util/smallScreen.util';
 import MobileNavItem from './MobileNavItem';
 import NavItem from './NavItem';
 
@@ -25,7 +24,6 @@ const StyledLink = styled('a')`
 `;
 
 export default function Navigation() {
-  const isSmallScreen = useSmallScreen();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const theme = useTheme();
@@ -113,7 +111,7 @@ export default function Navigation() {
           <Box
             sx={{
               flexGrow: 1,
-              [theme.breakpoints.down('md')]: {
+              [theme.breakpoints.up('md')]: {
                 display: 'none'
               }
             }}
