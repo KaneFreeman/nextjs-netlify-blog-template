@@ -111,7 +111,7 @@ export default function Navigation() {
             <MenuIcon />
           </IconButton>
           {isSmallScreen ? <Box sx={{ flexGrow: 1 }} /> : null}
-          <StyledLink href="/">
+          <StyledLink sx={{ height: '100%' }} href="/">
             <Box
               component="img"
               src={config.logo}
