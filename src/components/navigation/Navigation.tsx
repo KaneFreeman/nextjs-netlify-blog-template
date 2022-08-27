@@ -106,7 +106,7 @@ export default function Navigation() {
             onClick={handleDrawerToggle}
             sx={{ display: { sm: 'none' } }}
           >
-            <MenuIcon />
+            <MenuIcon fontSize="large" />
           </IconButton>
           <Box
             sx={{

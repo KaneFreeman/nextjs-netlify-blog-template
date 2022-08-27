@@ -1,8 +1,8 @@
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import { MouseEvent, useCallback } from 'react';
+import { MouseEvent } from 'react';
 import { MenuLink } from '../../lib/menu';
-import useNavigate from '../../util/useNavigate';
+import { CleanLink } from '../common-styled';
 
 interface MobileNavLinkProps {
   link: MenuLink;
@@ -10,23 +10,15 @@ interface MobileNavLinkProps {
 }
 
 const MobileNavLink = ({ link: { url, page, title }, onClick }: MobileNavLinkProps) => {
-  const navigate = useNavigate();
-
-  const handleOnClick = useCallback(
-    (event: MouseEvent) => {
-      if (url) {
-        navigate(url);
-      } else if (page) {
-        navigate(`/${page}`);
-      }
-      onClick(event);
-    },
-    [navigate, onClick, page, url]
-  );
-
   return (
-    <ListItemButton sx={{ pl: 4, color: '#d6bf86' }} onClick={handleOnClick}>
-      <ListItemText primary={title} />
+    <ListItemButton sx={{ pl: 4, color: '#d6bf86' }} onClick={onClick}>
+      {url || page ? (
+        <CleanLink target={url?.startsWith('http') ? '_blank' : undefined} href={url ?? `/${page}`}>
+          {<ListItemText primary={title} />}
+        </CleanLink>
+      ) : (
+        <ListItemText primary={title} />
+      )}
     </ListItemButton>
   );
 };

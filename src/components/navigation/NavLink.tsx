@@ -1,9 +1,9 @@
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { styled } from '@mui/material/styles';
-import { MouseEvent, useCallback } from 'react';
+import { MouseEvent } from 'react';
 import { MenuLink } from '../../lib/menu';
-import useNavigate from '../../util/useNavigate';
+import { CleanLink } from '../common-styled';
 
 const StyledButton = styled(Button)`
   color: #680b12;
@@ -29,23 +29,17 @@ interface NavLinkProps {
 }
 
 const NavLink = ({ link: { url, page, title }, onClick }: NavLinkProps) => {
-  const navigate = useNavigate();
-
-  const handleOnClick = useCallback(
-    (event: MouseEvent) => {
-      if (url) {
-        navigate(url);
-      } else if (page) {
-        navigate(`/${page}`);
-      }
-      onClick(event);
-    },
-    [navigate, onClick, page, url]
-  );
-
   return (
     <StyledButton sx={{ color: '#680b12', p: 0, textTransform: 'none' }}>
-      <StyledMenuItem onClick={handleOnClick}>{title}</StyledMenuItem>
+      <StyledMenuItem onClick={onClick}>
+        {url || page ? (
+          <CleanLink target={url?.startsWith('http') ? '_blank' : undefined} href={url ?? `/${page}`}>
+            {title}
+          </CleanLink>
+        ) : (
+          title
+        )}
+      </StyledMenuItem>
     </StyledButton>
   );
 };

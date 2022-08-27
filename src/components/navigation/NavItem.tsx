@@ -1,11 +1,11 @@
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { MenuItem, MenuLink } from '../../lib/menu';
 import { useDebouncedToggleOff } from '../../util/useDebounce';
-import useNavigate from '../../util/useNavigate';
+import { CleanLink } from '../common-styled';
 import NavLink from './NavLink';
 
 const StyledButton = styled(Button)`
@@ -64,8 +64,6 @@ interface HoverState {
 }
 
 const NavItem = ({ item }: NavItemProps) => {
-  const navigate = useNavigate();
-
   const [open, setOpen] = useState<HoverState>({
     button: false,
     menu: false,
@@ -120,14 +118,9 @@ const NavItem = ({ item }: NavItemProps) => {
         return;
       }
 
-      if (link.url) {
-        navigate(link.url);
-      } else if (link.page) {
-        navigate(`/${link.page}`);
-      }
       handleOnMouseOut(type)();
     },
-    [handleOnMouseOut, handleOnMouseOver, navigate]
+    [handleOnMouseOut, handleOnMouseOver]
   );
 
   return (
@@ -143,7 +136,13 @@ const NavItem = ({ item }: NavItemProps) => {
           onMouseOver={handleOnMouseOver('text')}
           onMouseOut={handleOnMouseOut('text')}
         >
-          {item.title}
+          {item.menu_links?.length ? (
+            item.title
+          ) : (
+            <CleanLink target={item.url?.startsWith('http') ? '_blank' : undefined} href={item.url ?? `/${item.page}`}>
+              {item.title}
+            </CleanLink>
+          )}
         </Box>
         {item.menu_links?.length ? (
           <ExpandMoreIcon
@@ -151,12 +150,11 @@ const NavItem = ({ item }: NavItemProps) => {
             onMouseOver={handleOnMouseOver('icon')}
             onMouseOut={handleOnMouseOut('icon')}
           />
-        ) : null}
-        {!item.menu_links?.length ? (
+        ) : (
           <StyledUnderlineWrapper>
             <StyledUnderline className="menu-item-underline" />
           </StyledUnderlineWrapper>
-        ) : null}
+        )}
       </StyledButton>
       {item.menu_links?.length && debouncedIsOpen ? (
         <Box
