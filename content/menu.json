@@ -11,6 +11,10 @@
           "title": "Event Calendar"
         },
         {
+          "title": "Live Stream",
+          "url": "/live-stream"
+        },
+        {
           "page": "mass-confession-times",
           "title": "Mass & Confession Times"
         },

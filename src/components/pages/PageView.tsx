@@ -36,7 +36,6 @@ const PageView = ({ title, tags = [], children }: PageViewProps) => {
       </Box>
       <Container
         sx={{
-          pb: 1,
           [theme.breakpoints.down('md')]: {
             pt: 0
           },
@@ -49,19 +48,22 @@ const PageView = ({ title, tags = [], children }: PageViewProps) => {
           <Box
             sx={{
               flexGrow: 1,
+              overflow: 'hidden',
               [theme.breakpoints.down('md')]: {
                 p: 3
               }
             }}
           >
             <div className={`content ${contentStyles.content}`}>{children}</div>
-            <ul>
-              {tags.map((it, i) => (
-                <li key={i}>
-                  <TagButton tag={getTag(it)} />
-                </li>
-              ))}
-            </ul>
+            {tags.length ? (
+              <ul>
+                {tags.map((it, i) => (
+                  <li key={i}>
+                    <TagButton tag={getTag(it)} />
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </Box>
           <QuickLinks />
         </Box>
