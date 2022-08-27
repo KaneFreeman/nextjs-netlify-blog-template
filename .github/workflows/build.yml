@@ -40,4 +40,4 @@ jobs:
       - name: Static HTML export with Next.js
         run: npm run export
       - name: Deploy to Netlify
-        run: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=./dist
+        run: ./node_modules/.bin/netlify deploy --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_ACCESS_TOKEN }} --prod --dir=./dist
