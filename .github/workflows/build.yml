@@ -77,4 +77,4 @@ jobs:
       - name: Static HTML export with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next export
       - name: Deploy to Netlify
-      - run: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=./dist
+        run: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=./dist
