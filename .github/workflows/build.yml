@@ -39,5 +39,10 @@ jobs:
         run: npm ci --legacy-peer-deps
       - name: Static HTML export with Next.js
         run: npm run export
-      - name: Deploy to Netlify
-        run: ./node_modules/.bin/netlify deploy --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_ACCESS_TOKEN }} --prod --dir=./dist
+      - name: 'Deploy to Netlify'
+        uses: jsmrcaga/action-netlify-deploy@v1.1.0
+        with:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_ACCESS_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_DEPLOY_TO_PROD: true
+          build_directory: "./dist"
