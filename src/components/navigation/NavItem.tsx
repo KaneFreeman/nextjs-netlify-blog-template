@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { MENU_DELAY } from '../../constants';
 import { MenuItem, MenuLink } from '../../lib/menu';
 import { useDebouncedToggleOff } from '../../util/useDebounce';
 import { CleanLink } from '../common-styled';
@@ -14,7 +15,7 @@ const StyledButton = styled(Button)`
   padding: 10px 20px;
   whitespace: nowrap;
 
-  font-family: 'Merriweather', 'Ubuntu', sans-serif;
+  font-family: 'Oswald', 'Ubuntu', sans-serif;
   font-size: 17px;
 
   display: flex;
@@ -101,7 +102,7 @@ const NavItem = ({ item }: NavItemProps) => {
   }, []);
 
   const isOpen = useMemo(() => open.button || open.menu || open.icon || open.text, [open]);
-  const debouncedIsOpen = useDebouncedToggleOff(isOpen, 150);
+  const debouncedIsOpen = useDebouncedToggleOff(isOpen, MENU_DELAY);
 
   useEffect(() => {
     if (debouncedIsOpen) {

@@ -1,13 +1,13 @@
-import Box from '@mui/material/Box';
 import { serialize } from 'next-mdx-remote/serialize';
 import { useEffect } from 'react';
-import CarouselView from '../components/carousel/CarouselView';
+import HomepageView from '../components/homepage/HomepageView';
 import Layout from '../components/Layout';
-import SocialList from '../components/layout/footer/SocialList';
 import BasicMeta from '../components/meta/BasicMeta';
 import OpenGraphMeta from '../components/meta/OpenGraphMeta';
 import TwitterCardMeta from '../components/meta/TwitterCardMeta';
-import slides, { SerializedSlide } from '../lib/slides';
+import { SerializedSlide } from '../interface';
+import homePageData from '../lib/homepage';
+import times from '../lib/times';
 import useLocation from '../util/useLocation';
 import useNavigate from '../util/useNavigate';
 
@@ -43,15 +43,7 @@ export default function Homepage({ slides }: HomepageProps) {
       <OpenGraphMeta url={'/'} />
       <TwitterCardMeta url={'/'} />
       <div>
-        <Box sx={{ width: '100%' }}>
-          <CarouselView slides={slides} />
-          <h1>
-            Hi, We&apos;re Next.js & Netlify<span>.</span>
-          </h1>
-          <span>@nextjs-netlify-blog</span>
-          <h2>A blog template with Next.js and Netlify.</h2>
-          <SocialList />
-        </Box>
+        <HomepageView slides={slides} homePageData={homePageData} times={times} />
       </div>
     </Layout>
   );
@@ -59,7 +51,7 @@ export default function Homepage({ slides }: HomepageProps) {
 
 export async function getStaticProps() {
   const serializedSlides: SerializedSlide[] = [];
-  for (const slide of slides) {
+  for (const slide of homePageData.slides) {
     const mdxTitle = await serialize(slide.title);
     serializedSlides.push({
       image: slide.image,
@@ -67,6 +59,5 @@ export async function getStaticProps() {
     });
   }
 
-  const source = 'Some **mdx** text, with a component <Test />';
   return { props: { slides: serializedSlides } };
 }

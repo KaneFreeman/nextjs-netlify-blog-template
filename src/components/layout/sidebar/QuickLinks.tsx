@@ -81,7 +81,7 @@ const QuickLinks = () => {
             <Box
               component="h2"
               sx={{
-                fontFamily: 'Merriweather',
+                fontFamily: 'Oswald',
                 fontWeight: 400,
                 textShadow: '1px 1px 8px rgb(0 0 0)',
                 backgroundColor: 'rgba(0, 0, 0, 0.3)',

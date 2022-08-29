@@ -22,10 +22,10 @@ const config: CmsConfig = {
       },
       files: [
         {
-          name: 'slides',
-          label: 'Slides',
-          file: 'content/homepage/slides.json',
-          description: 'Slides descriptions',
+          name: 'homepage',
+          label: 'Homepage',
+          file: 'content/homepage.json',
+          description: 'Homepage configuration',
           fields: [
             {
               name: 'slides',
@@ -45,6 +45,16 @@ const config: CmsConfig = {
                   required: false
                 }
               ]
+            },
+            {
+              name: 'schedule_background',
+              label: 'Schedule Background',
+              widget: 'image'
+            },
+            {
+              name: 'schedule_background_fallback_color',
+              label: 'Schedule Background Fallback Color',
+              widget: 'color'
             }
           ]
         }
@@ -108,6 +118,91 @@ const config: CmsConfig = {
               name: 'vision_statement',
               label: 'Vision Statement',
               widget: 'text'
+            }
+          ]
+        },
+        {
+          name: 'times',
+          label: 'Mass & Confession Times',
+          file: 'content/times.json',
+          description: 'Mass & Confession Times',
+          fields: [
+            {
+              name: 'times',
+              label: 'Times',
+              widget: 'list',
+              summary: '{{fields.name}}',
+              fields: [
+                {
+                  name: 'name',
+                  label: 'Name',
+                  widget: 'string'
+                },
+                {
+                  name: 'sections',
+                  label: 'Secitions',
+                  label_singular: 'Secition',
+                  widget: 'list',
+                  summary: '{{fields.name}}',
+                  fields: [
+                    {
+                      name: 'name',
+                      label: 'Name',
+                      widget: 'string',
+                      required: false
+                    },
+                    {
+                      name: 'days',
+                      label: 'Days / Lines',
+                      label_singular: 'Day / Line',
+                      widget: 'list',
+                      summary: '{{fields.day}}',
+                      fields: [
+                        {
+                          name: 'day',
+                          label: 'Day / Line Name',
+                          widget: 'string'
+                        },
+                        {
+                          name: 'times',
+                          label: 'Times',
+                          label_singular: 'Time',
+                          widget: 'list',
+                          summary: "{{time}} {{note}}",
+                          fields: [
+                            {
+                              name: 'time',
+                              label: 'Start Time',
+                              widget: 'datetime',
+                              date_format: false,
+                              time_format: 'h:mm A',
+                              format: 'h:mm A',
+                              required: false,
+                              default: ""
+                            },
+                            {
+                              name: 'end_time',
+                              label: 'End Time',
+                              widget: 'datetime',
+                              date_format: false,
+                              time_format: 'h:mm A',
+                              format: 'h:mm A',
+                              required: false,
+                              default: ""
+                            },
+                            {
+                              name: 'note',
+                              label: 'Note',
+                              widget: 'text',
+                              required: false
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },

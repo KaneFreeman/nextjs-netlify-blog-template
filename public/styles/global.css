@@ -1,11 +1,53 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto%3A1%2C300%2C400%2C400italic%2C700%7CMerriweather%3A1%2C300%2C400%2C400italic%2C700%7CMerriweather%3A400normal%7CLato%3A400normal&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto%3A1%2C300%2C400%2C400italic%2C700%7COswald%3A1%2C300%2C400%2C400italic%2C700%7COswald%3A400normal%7CLato%3A400normal&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
 
+@font-face {
+  font-family: "Oswald";
+  src: url("/fonts/Oswald-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Oswald";
+  src: url("/fonts/Oswald-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+
 html,
 body {
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
-    'Helvetica Neue', sans-serif;
+  font-family: "Montserrat", Helvetica, Arial, sans-serif;
   background-color: #f5f4f3;
   color: #222;
   font-weight: 200;
@@ -46,7 +88,7 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: 'Merriweather', 'Ubuntu', sans-serif;
+  font-family: 'Oswald', 'Ubuntu', sans-serif;
 }
 
 b,

@@ -1,5 +1,5 @@
 .content {
-  font-family: 'Merriweather', 'Ubuntu', sans-serif;
+  font-family: 'Oswald', 'Ubuntu', sans-serif;
   color: #222;
   font-weight: 200;
 }
@@ -95,7 +95,7 @@
 }
 
 .content code {
-  font-family: 'Merriweather', 'Ubuntu Mono', monospace;
+  font-family: 'Oswald', 'Ubuntu Mono', monospace;
   font-size: 85%;
   padding: 0.2em 0.4em;
   margin: 0;
@@ -161,7 +161,7 @@
 }
 
 .content kbd {
-  font-family: 'Merriweather', 'Ubuntu Mono', monospace;
+  font-family: 'Oswald', 'Ubuntu Mono', monospace;
 }
 
 .content img {

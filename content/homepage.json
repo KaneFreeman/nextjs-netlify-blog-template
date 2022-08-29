@@ -7,5 +7,7 @@
     {
       "image": "/images/churchslide2-1.jpg"
     }
-  ]
+  ],
+  "schedule_background": "/images/mid_wrap_bg2.jpg",
+  "schedule_background_fallback_color": "#7c2127"
 }

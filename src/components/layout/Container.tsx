@@ -5,11 +5,15 @@ import { MAX_APP_WIDTH } from '../../constants';
 
 interface ContainerProps {
   children: ReactNode;
-  sx?: SxProps<Theme>
+  sx?: SxProps<Theme>;
 }
 
 const Container = ({ children, sx }: ContainerProps) => {
-  return <Box sx={{ maxWidth: MAX_APP_WIDTH, width: '100%', ...sx }}>{children}</Box>;
+  return (
+    <Box sx={{ maxWidth: MAX_APP_WIDTH, width: '100%', display: 'flex', justifyContent: 'center', ...sx }}>
+      {children}
+    </Box>
+  );
 };
 
 export default Container;

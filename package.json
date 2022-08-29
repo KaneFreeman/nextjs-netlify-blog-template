@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "saint-joseph-catholic-church-site",
   "version": "0.1.1",
   "private": true,
   "scripts": {
@@ -34,13 +34,14 @@
     "netlify-cms-ui-default": "2.15.5",
     "next": "12.2.5",
     "next-mdx-remote": "4.1.0",
-    "next-pwa": "^5.6.0",
+    "next-pwa": "5.6.0",
     "normalize.css": "8.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-instagram-embed": "3.0.0",
-    "react-responsive-carousel": "3.2.23",
+    "react-rss": "2.0.0",
     "react-schemaorg": "2.0.0",
+    "react-slideshow-image": "4.0.4",
     "react-twitter-embed": "4.0.4",
     "react-youtube": "9.0.3",
     "rehype-parse": "6.0.0",

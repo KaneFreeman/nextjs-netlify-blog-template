@@ -1,6 +1,7 @@
 import cmsApp from 'netlify-cms-app';
 import { useEffect } from 'react';
 import BlogPostPreview from '../components/previews/BlogPostPreview';
+import HomePagePreview from '../components/previews/HomePagePreview';
 import PagePreview from '../components/previews/PagePreview';
 import { useScript } from '../util/useScript';
 import config from './config';
@@ -25,6 +26,7 @@ const CMSView = () => {
     cmsApp.registerPreviewStyle('/styles/content.module.css');
     cmsApp.registerPreviewTemplate('posts', BlogPostPreview);
     cmsApp.registerPreviewTemplate('pages', PagePreview);
+    cmsApp.registerPreviewTemplate('homepage', HomePagePreview);
 
     (cmsApp.registerWidget as any)('markdown', controlComponent, previewComponent, schema);
   }, []);

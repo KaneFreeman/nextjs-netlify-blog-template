@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 interface StyleCopyProps {
   document: Document;
@@ -7,27 +7,34 @@ interface StyleCopyProps {
 const StyleCopy = ({ document }: StyleCopyProps) => {
   const [styles, setStyles] = useState<HTMLStyleElement[]>([]);
 
-  useEffect(() => {
+  const getStyles = useCallback(() => {
     if (typeof window === undefined) {
       return;
     }
 
-    console.log('[StyleCopy] useEffect!');
     if (parent) {
       const arrStyleSheets = parent.document.getElementsByTagName('style');
-      console.log('[StyleCopy] arrStyleSheets.length:', arrStyleSheets.length);
+      if (arrStyleSheets.length === styles.length) {
+        return;
+      }
+
       const newStyles: HTMLStyleElement[] = [];
       for (let i = 0; i < arrStyleSheets.length; i++) {
-        console.log('[StyleCopy] copying!', i, arrStyleSheets[i]);
         newStyles.push(arrStyleSheets[i].cloneNode(true) as HTMLStyleElement);
       }
       setStyles(newStyles);
     }
-  }, []);
+  }, [styles.length]);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      getStyles();
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [getStyles]);
 
   useEffect(() => {
     if (parent) {
-      console.log('[StyleCopy] HEAD', document.getElementsByTagName('head'));
       const oHead = document.getElementsByTagName('head')[0];
       styles.forEach((style) => oHead.appendChild(style));
 

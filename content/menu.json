@@ -5,14 +5,14 @@
       "url": "/"
     },
     {
+      "title": "Live Stream",
+      "url": "https://www.facebook.com/stjosephchurchbluffton/live"
+    },
+    {
       "title": "Parish",
       "menu_links": [
         {
           "title": "Event Calendar"
-        },
-        {
-          "title": "Live Stream",
-          "url": "/live-stream"
         },
         {
           "page": "mass-confession-times",
