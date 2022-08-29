@@ -1,11 +1,12 @@
 import { PreviewTemplateComponentProps } from 'netlify-cms-core';
+import StyleCopy from '../../cms/StyleCopy';
 import PageView from '../pages/PageView';
 
-const PagePreview = ({ entry, widgetFor }: PreviewTemplateComponentProps) => {
+const PagePreview = ({ entry, widgetFor, document }: PreviewTemplateComponentProps) => {
   return (
     <>
-      <h1>{entry.getIn(['data', 'title'])}</h1>
-      <div className="content">{widgetFor('body')}</div>
+      <StyleCopy document={document} />
+      <PageView title={entry.getIn(['data', 'title'])}>{widgetFor('body')}</PageView>
     </>
   );
 };
